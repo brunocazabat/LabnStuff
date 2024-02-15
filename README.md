@@ -6,6 +6,10 @@ A `.env` file is required for keeping the environment variables.
 
 All my LXCs are running under the last Ubuntu LXC template from Proxmox.
 
+I heavily recommend the usage of `Solar-PuTTY` for managing the LXCs.
+
+`WinSCP` is also a good tool for managing the files inside the LXCs.
+
 List of projects:
 
 - Pi-Hole

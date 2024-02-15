@@ -14,7 +14,7 @@ Disk: 8GB
 
 ## Installation
 
-Follow the cmds from the `LXC-pihole.bash` file.
+Follow the commands from the `LXC-pihole.bash` file.
 
 ## Adlists
 

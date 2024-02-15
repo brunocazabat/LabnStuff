@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+    homepage:
+        image: ghcr.io/gethomepage/homepage:latest
+        container_name: homepage
+        environment:
+            PUID: $PUID
+            PGID: $PGID
+            DISABLE_IPV6: $DISABLE_IPV6
+        ports:
+            - 3000:3000
+        env_file: .env
+        volumes:
+            - ./config:/app/config
+            - ./images:/app/public/images
+        restart: unless-stopped

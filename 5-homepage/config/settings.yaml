@@ -1,0 +1,36 @@
+title: "{{HOMEPAGE_VAR_title}}"
+
+background:
+    image: /images/bruh.jpg
+    saturate: 0
+    brightness: 50
+    opacity: 100
+
+headerStyle: boxed
+theme: dark
+color: slate
+
+layout:
+    Hypervisor:
+        style: row
+        columns: 3
+    Fritz & DNS & Nginx:
+        style: row
+        columns: 3
+    Stuff:
+        style: row
+        columns: 5
+
+language: en
+
+useEqualHeights: true
+
+target: _blank
+
+hideVersion: true
+
+quicklaunch:
+    searchDescriptions: true
+    hideInternetSearch: false
+    showSearchSuggestions: true
+    hideVisitURL: true

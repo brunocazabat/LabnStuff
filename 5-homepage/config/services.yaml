@@ -1,0 +1,100 @@
+---
+- Hypervisor:
+      - Router:
+            icon: si-proxmox
+            description: Proxmox
+            href: "{{HOMEPAGE_VAR_router_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_router_ip}}"
+      - Server:
+            icon: si-proxmox
+            description: Proxmox
+            href: "{{HOMEPAGE_VAR_server_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_server_ip}}"
+      - Watcher:
+            icon: si-proxmox
+            description: Proxmox
+            href: "{{HOMEPAGE_VAR_watcher_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_watcher_ip}}"
+      - 🔒 Router:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_router_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_router_url}}"
+      - 🔒 Server:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_server_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_server_url}}"
+      - 🔒 Watcher:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_watcher_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_watcher_url}}"
+- Fritz & DNS & Nginx:
+      - FritzBox:
+            icon: https://avm.de/typo3conf/ext/avm/Resources/Public/Images/logo.svg
+            href: "{{HOMEPAGE_VAR_fritzbox_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_fritzbox_ip}}"
+      - Pi-hole:
+            icon: si-pihole
+            href: "{{HOMEPAGE_VAR_pihole_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_pihole_ip}}"
+      - Nginx Proxy Manager:
+            icon: si-nginx
+            href: "{{HOMEPAGE_VAR_nginx_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_nginx_ip}}"
+      - 🔒 FritzBox:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_fritzbox_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_fritzbox_url}}"
+      - 🔒 Pi-hole:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_pihole_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_pihole_url}}"
+      - 🔒 Nginx Proxy Manager:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_nginx_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_nginx_url}}"
+- Stuff:
+      - HomePage:
+            icon: si-homeassistantcommunitystore
+            description: Your HomePage
+            href: "{{HOMEPAGE_VAR_homepage_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_homepage_ip}}"
+      - Bitwarden:
+            icon: si-bitwarden
+            description: Your Bitwarden
+            href: "{{HOMEPAGE_VAR_bitwarden_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_bitwarden_ip}}"
+      - Mealie:
+            icon: si-franprix
+            description: Your Mealie
+            href: "{{HOMEPAGE_VAR_mealie_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_mealie_ip}}"
+      - Speedtest:
+            icon: si-speedtest
+            description: Your Speedtest
+            href: "{{HOMEPAGE_VAR_speedtest_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_speedtest_ip}}"
+      - Spotify:
+            icon: si-spotify
+            description: Your Spotify
+            href: "{{HOMEPAGE_VAR_spotify_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_spotify_ip}}"
+      - 🔒 HomePage:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_homepage_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_homepage_url}}"
+      - 🔒 Bitwarden:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_bitwarden_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_bitwarden_url}}"
+      - 🔒 Mealie:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_mealie_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_mealie_url}}"
+      - 🔒 Speedtest:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_speedtest_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_speedtest_url}}"
+      - 🔒 Spotify:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_spotify_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_spotify_url}}"

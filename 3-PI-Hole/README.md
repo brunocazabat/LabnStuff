@@ -5,8 +5,11 @@
 This is a simple project to install and configure a Pi-Hole server on a Proxmox LXC container.
 
 Core: 1
+
 Mem: 512MB
+
 Swap: 512MB
+
 Disk: 8GB
 
 ## Installation

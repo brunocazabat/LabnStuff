@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+    app:
+        image: "jc21/nginx-proxy-manager:latest"
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "81:81"
+            - "443:443"
+        environment:
+            PUID: $PUID
+            PGID: $PGID
+            DISABLE_IPV6: $DISABLE_IPV6
+        env_file: .env
+        volumes:
+            - ./data:/data
+            - ./letsencrypt:/etc/letsencrypt

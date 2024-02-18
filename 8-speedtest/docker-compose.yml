@@ -1,14 +1,36 @@
 version: "3.8"
 services:
-    speedtest:
-        restart: unless-stopped
-        container_name: openspeedtest
-        ports:
-            - "80:3000"
-            - "443:3001"
-        image: openspeedtest/latest
-        environment:
-            PUID: $PUID
-            PGID: $PGID
-            DISABLE_IPV6: $DISABLE_IPV6
+    speedtest-tracker:
+        image: lscr.io/linuxserver/speedtest-tracker:latest
+        container_name: speedtest-tracker
         env_file: .env
+        ports:
+            - 3000:80
+            - 3003:443
+        environment:
+            - PUID=$PUID
+            - PGID=$PGID
+            - DB_CONNECTION=pgsql
+            - DB_HOST=db
+            - DB_PORT=5432
+            - DB_DATABASE=$POSTGRES_NAME
+            - DB_USERNAME=$POSTGRES_USER
+            - DB_PASSWORD=$POSTGRES_PASSWORD
+        volumes:
+            - /path/to/data:/config
+            - /path/to/directory/web:/etc/ssl/web
+        restart: unless-stopped
+        depends_on:
+            - db
+    db:
+        image: postgres:15
+        restart: unless-stopped
+        env_file: .env
+        environment:
+            - POSTGRES_DB=$POSTGRES_NAME
+            - POSTGRES_USER=$POSTGRES_USER
+            - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+        volumes:
+            - speedtest-db:/var/lib/postgresql/data
+volumes:
+    speedtest-db:

@@ -16,10 +16,10 @@ layout:
         columns: 3
     Fritz & DNS & Nginx:
         style: row
-        columns: 3
+        columns: 4
     Stuff:
         style: row
-        columns: 5
+        columns: 4
 
 language: en
 

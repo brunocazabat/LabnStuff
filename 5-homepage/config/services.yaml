@@ -5,16 +5,34 @@
             description: Proxmox
             href: "{{HOMEPAGE_VAR_router_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_router_ip}}"
+            widget:
+                type: proxmox
+                url: "{{HOMEPAGE_VAR_router_ip}}"
+                username: "{{HOMEPAGE_VAR_cluster_api_username}}"
+                password: "{{HOMEPAGE_VAR_cluster_api_password}}"
+                node: router
       - Server:
             icon: si-proxmox
             description: Proxmox
             href: "{{HOMEPAGE_VAR_server_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_server_ip}}"
+            widget:
+                type: proxmox
+                url: "{{HOMEPAGE_VAR_server_ip}}"
+                username: "{{HOMEPAGE_VAR_cluster_api_username}}"
+                password: "{{HOMEPAGE_VAR_cluster_api_password}}"
+                node: server
       - Watcher:
             icon: si-proxmox
             description: Proxmox
             href: "{{HOMEPAGE_VAR_watcher_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_watcher_ip}}"
+            widget:
+                type: proxmox
+                url: "{{HOMEPAGE_VAR_watcher_ip}}"
+                username: "{{HOMEPAGE_VAR_cluster_api_username}}"
+                password: "{{HOMEPAGE_VAR_cluster_api_password}}"
+                node: watcher
       - 🔒 Router:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_router_url}}"
@@ -32,14 +50,40 @@
             icon: https://avm.de/typo3conf/ext/avm/Resources/Public/Images/logo.svg
             href: "{{HOMEPAGE_VAR_fritzbox_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_fritzbox_ip}}"
+            widget:
+                type: fritzbox
+                url: "{{HOMEPAGE_VAR_fritzbox_ip}}"
+                fields:
+                    [
+                        "connectionStatus",
+                        "received",
+                        "sent",
+                        "externalIPAddress",
+                    ]
       - Pi-hole:
             icon: si-pihole
-            href: "{{HOMEPAGE_VAR_pihole_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_pihole_ip}}"
+            href: "{{HOMEPAGE_VAR_pihole_ip}}/admin"
+            siteMonitor: "{{HOMEPAGE_VAR_pihole_ip}}/admin"
+            widget:
+                type: pihole
+                url: "{{HOMEPAGE_VAR_pihole_ip}}"
+                key: "{{HOMEPAGE_VAR_pihole_key}}"
+      - Speedtest:
+            icon: si-speedtest
+            href: "{{HOMEPAGE_VAR_speedtest_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_speedtest_ip}}"
+            widget:
+                type: speedtest
+                url: "{{HOMEPAGE_VAR_speedtest_ip}}"
       - Nginx Proxy Manager:
             icon: si-nginx
             href: "{{HOMEPAGE_VAR_nginx_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_nginx_ip}}"
+            widget:
+                type: npm
+                url: "{{HOMEPAGE_VAR_nginx_ip}}"
+                username: "{{HOMEPAGE_VAR_username}}"
+                password: "{{HOMEPAGE_VAR_password}}"
       - 🔒 FritzBox:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_fritzbox_url}}"
@@ -48,6 +92,10 @@
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_pihole_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_pihole_url}}"
+      - 🔒 Speedtest:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_speedtest_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_speedtest_url}}"
       - 🔒 Nginx Proxy Manager:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_nginx_url}}"
@@ -68,11 +116,6 @@
             description: Your Mealie
             href: "{{HOMEPAGE_VAR_mealie_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_mealie_ip}}"
-      - Speedtest:
-            icon: si-speedtest
-            description: Your Speedtest
-            href: "{{HOMEPAGE_VAR_speedtest_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_speedtest_ip}}"
       - Spotify:
             icon: si-spotify
             description: Your Spotify
@@ -90,10 +133,6 @@
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_mealie_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_mealie_url}}"
-      - 🔒 Speedtest:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_speedtest_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_speedtest_url}}"
       - 🔒 Spotify:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_spotify_url}}"

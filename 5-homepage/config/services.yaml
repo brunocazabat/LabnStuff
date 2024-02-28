@@ -137,3 +137,28 @@
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_spotify_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_spotify_url}}"
+- Minecraft:
+      - Ptero Panel:
+            icon: si-pterodactyl
+            href: "{{HOMEPAGE_VAR_ptero_panel_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_panel_ip}}"
+      - Ptero Wing 1:
+            icon: si-pterodactyl
+            href: "{{HOMEPAGE_VAR_ptero_wings_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_wings_ip}}"
+      - Minecraft Server:
+            icon: si-minecraft
+            href: "{{HOMEPAGE_VAR_minecraft_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_minecraft_ip}}"
+      - 🔒 Ptero Panel:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_ptero_panel_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_panel_url}}"
+      - 🔒 Ptero Wing 1:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_ptero_wings_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_wings_url}}"
+      - 🔒 Minecraft Server:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_minecraft_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_minecraft_url}}"

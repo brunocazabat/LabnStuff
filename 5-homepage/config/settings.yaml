@@ -20,6 +20,9 @@ layout:
     Stuff:
         style: row
         columns: 4
+    Minecraft:
+        style: row
+        columns: 3
 
 language: en
 

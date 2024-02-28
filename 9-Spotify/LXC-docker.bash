@@ -1,5 +1,5 @@
 # From "Mom"
-lxc-attach --name 109
+lxc-attach --name "id"
 # From "Dad"
 sudo passwd root
 nano /etc/ssh/sshd_config

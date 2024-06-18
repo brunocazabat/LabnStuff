@@ -1,6 +1,6 @@
-version: "3.8"
 services:
     database:
+        container_name: database
         image: mariadb:10.11
         env_file: .env
         restart: unless-stopped
@@ -19,6 +19,7 @@ services:
             MYSQL_USER: "pterodactyl"
 
     cache:
+        container_name: cache
         image: redis:alpine3.18
         env_file: .env
         networks:
@@ -28,7 +29,8 @@ services:
             - cache:/data
 
     panel:
-        image: ghcr.io/pterodactyl/panel:v1.11.5
+        container_name: panel
+        image: ghcr.io/pterodactyl/panel:latest
         env_file: .env
         restart: unless-stopped
         networks:
@@ -49,7 +51,7 @@ services:
             MAIL_PASSWORD: $MAIL_PASS
             MAIL_ENCRYPTION: "true"
             APP_URL: $PTERO_PANEL_URL
-            APP_TIMEZONE: $TZ
+            APP_TIMEZONE: Europe/Berlin
             APP_SERVICE_AUTHOR: $MAIL_FROM
             TRUSTED_PROXIES: $TRUSTED_PROXIES
             DB_PASSWORD: $MYSQL_PASS

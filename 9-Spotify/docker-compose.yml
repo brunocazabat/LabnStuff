@@ -1,22 +1,23 @@
-version: "3.8"
 services:
     server:
         image: "yooooomi/your_spotify_server:latest"
+        container_name: your_spotify_server
+        env_file: .env
         restart: unless-stopped
         ports:
-            - "8088:8080"
-        links:
-            - mongo
-        depends_on:
-            - mongo
-        env_file: .env
+            - 8088:8080
         environment:
             API_ENDPOINT: $API_ENDPOINT
             CLIENT_ENDPOINT: $CLIENT_ENDPOINT
             DISABLE_IPV6: $DISABLE_IPV6
             SPOTIFY_PUBLIC: $SPOTIFY_PUBLIC
             SPOTIFY_SECRET: $SPOTIFY_SECRET
+            TIMEZONE: Europe/Berlin
             CORS: $CORS
+        links:
+            - mongo
+        depends_on:
+            - mongo
 
     mongo:
         container_name: mongo
@@ -27,9 +28,10 @@ services:
 
     web:
         image: "yooooomi/your_spotify_client:latest"
+        container_name: your_spotify_client
+        env_file: .env
         restart: unless-stopped
         ports:
-            - "3003:3000"
-        env_file: .env
+            - 3003:3000
         environment:
             API_ENDPOINT: $API_ENDPOINT

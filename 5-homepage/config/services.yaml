@@ -22,17 +22,17 @@
                 username: "{{HOMEPAGE_VAR_cluster_api_username}}"
                 password: "{{HOMEPAGE_VAR_cluster_api_password}}"
                 node: server
-      - Watcher:
+      - Worker:
             icon: si-proxmox
             description: Proxmox
-            href: "{{HOMEPAGE_VAR_watcher_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_watcher_ip}}"
+            href: "{{HOMEPAGE_VAR_worker_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_worker_ip}}"
             widget:
                 type: proxmox
-                url: "{{HOMEPAGE_VAR_watcher_ip}}"
+                url: "{{HOMEPAGE_VAR_worker_ip}}"
                 username: "{{HOMEPAGE_VAR_cluster_api_username}}"
                 password: "{{HOMEPAGE_VAR_cluster_api_password}}"
-                node: watcher
+                node: worker
       - 🔒 Router:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_router_url}}"
@@ -41,10 +41,10 @@
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_server_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_server_url}}"
-      - 🔒 Watcher:
+      - 🔒 Worker:
             icon: si-inertia
-            href: "{{HOMEPAGE_VAR_watcher_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_watcher_url}}"
+            href: "{{HOMEPAGE_VAR_worker_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_worker_url}}"
 - Fritz & DNS & Nginx:
       - FritzBox:
             icon: https://avm.de/typo3conf/ext/avm/Resources/Public/Images/logo.svg

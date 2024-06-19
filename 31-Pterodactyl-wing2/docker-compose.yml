@@ -1,0 +1,56 @@
+services:
+    wings:
+        container_name: wings
+        image: ghcr.io/pterodactyl/wings:latest
+        restart: unless-stopped
+        networks:
+            - wings
+        ports:
+            - $PORT:443
+            - $PORT_SFTP:2022
+        tty: true
+        environment:
+            TZ: Europe/Berlin
+            WINGS_UID: $UID
+            WINGS_GID: $GID
+            WINGS_USERNAME: pterodactyl
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock"
+            - "/var/lib/docker/containers/:/var/lib/docker/containers/"
+            - "/etc/pterodactyl/:/etc/pterodactyl/"
+            - "/var/lib/pterodactyl/:/var/lib/pterodactyl/"
+            - "/var/log/pterodactyl/:/var/log/pterodactyl/"
+            - "/tmp/pterodactyl/:/tmp/pterodactyl/"
+            - "/etc/ssl/certs:/etc/ssl/certs:ro"
+
+    db:
+        container_name: db
+        image: mariadb:10.11
+        restart: unless-stopped
+        command: --default-authentication-plugin=mysql_native_password
+        ports:
+            - $PORT_DB:3306
+        networks:
+            - wings
+        volumes:
+            - db:/var/lib/mysql
+        environment:
+            - MYSQL_DATABASE="servers"
+            - MYSQL_USER="pterodactyl"
+            - MYSQL_PASSWORD=$SQL_PASS
+            - MYSQL_ROOT_PASSWORD=$SQL_PASS_ROOT
+
+networks:
+    wings:
+        name: wings
+        driver: bridge
+        driver_opts:
+            com.docker.network.bridge.name: wings
+    pterodactyl_nw:
+        driver: bridge
+
+volumes:
+    config:
+    lib:
+    daemon:
+    db:

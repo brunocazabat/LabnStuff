@@ -14,8 +14,8 @@ Disk: 8GB
 
 ## Installation
 
-Follow the commands from the `LXC-docker. bash` file.
+1. Follow the commands from the `LXC-docker.bash` file.
 
-Drop the `docker-compose.yml` file in your LXC container and run `docker-compose up -d`.
+2. Drop the `docker-compose.yml` file in your LXC container and run `docker compose up -d`.
 
-Access the web interface and configure your certificate and your subdomains.
+3. Access the web interface and configure your certificate and your subdomains.

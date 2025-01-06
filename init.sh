@@ -2,9 +2,7 @@
 
 # user and port left exposed for the sake of the example, do not use in production or exposed to the internet!
 
-adduser --quiet --disabled-password bruno | passwd bruno
-
-adduser bruno sudo && adduser bruno docker
+adduser --quiet --disabled-password bruno && sleep 2 && passwd bruno && sleep 2 && adduser bruno sudo
 
 sed -i -e "s/#Port 22/Port 1999/g" /etc/ssh/sshd_config && systemctl restart sshd
 apt update && apt upgrade -y && apt -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common net-tools

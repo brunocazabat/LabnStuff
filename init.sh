@@ -2,7 +2,7 @@
 
 # user and port left exposed for the sake of the example, do not use in production or exposed to the internet!
 
-adduser bruno | passwd bruno --stdin
+adduser --quiet --disabled-password bruno | passwd bruno
 
 adduser bruno sudo && adduser bruno docker
 

@@ -2,10 +2,7 @@
 
 # user and port left exposed for the sake of the example, do not use in production or exposed to the internet!
 
-adduser bruno <<EOF
-$password
-$password
-EOF
+adduser bruno | passwd bruno --stdin
 
 adduser bruno sudo && adduser bruno docker
 

@@ -1,7 +1,6 @@
-version: "3"
 services:
     pairdrop:
-        image: "lscr.io/linuxserver/pairdrop:latest"
+        image: "lscr.io/linuxserver/pairdrop:1.10.10"
         container_name: pairdrop
         restart: unless-stopped
         environment:
@@ -14,4 +13,4 @@ services:
             - TZ=Europe/Berlin # Specify a timezone to use e.g. `Europe/Berlin`
             - DISABLE_IPV6=$DISABLE_IPV6 # Set to true to disable IPv6
         ports:
-            - "127.0.0.1:3000:3000" # Web UI. Change the port number before the last colon e.g. `127.0.0.1:9000:3000`
+            - "3000:3000" # Web UI. Change the port number before the last colon e.g. `127.0.0.1:9000:3000`

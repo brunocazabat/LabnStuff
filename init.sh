@@ -1,13 +1,15 @@
 #!/bin/bash
 
-adduser "$0" <<EOF
+# user and port left exposed for the sake of the example, do not use in production or exposed to the internet!
+
+adduser bruno <<EOF
 $password
 $password
 EOF
 
-adduser "$0" sudo && adduser "$0" docker
+adduser bruno sudo && adduser bruno docker
 
-sed -i -e "s/#Port 22/Port $1/g" /etc/ssh/sshd_config && systemctl restart sshd
+sed -i -e "s/#Port 22/Port 1999/g" /etc/ssh/sshd_config && systemctl restart sshd
 apt update && apt upgrade -y && apt -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common net-tools
 curl -sSL https://get.docker.com/ | bash
 {

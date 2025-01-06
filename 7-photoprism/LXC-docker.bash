@@ -1,11 +1,3 @@
-# From "Mom"
-lxc-attach --name "id"
-# From "Dad"
-sudo passwd root
-nano /etc/ssh/sshd_config
-# PermitRootLogin prohibit-password > PermitRootLogin yes
-systemctl restart sshd
+# This script is used to install docker on a LXC container and do the initial setup
 
-apt update && apt upgrade -y && apt -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common net-tools
-
-curl -sSL https://get.docker.com/ | bash
+bash -c "$(wget -qO - https://raw.githubusercontent.com/brunocazabat/LabnStuff/refs/heads/main/init.sh)"

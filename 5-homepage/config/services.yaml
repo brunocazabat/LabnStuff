@@ -1,16 +1,5 @@
 ---
-- Hypervisor:
-      - Router:
-            icon: si-proxmox
-            description: Proxmox
-            href: "{{HOMEPAGE_VAR_router_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_router_ip}}"
-            widget:
-                type: proxmox
-                url: "{{HOMEPAGE_VAR_router_ip}}"
-                username: "{{HOMEPAGE_VAR_cluster_api_username}}"
-                password: "{{HOMEPAGE_VAR_cluster_api_password}}"
-                node: router
+- Machines:
       - Server:
             icon: si-proxmox
             description: Proxmox
@@ -22,32 +11,21 @@
                 username: "{{HOMEPAGE_VAR_cluster_api_username}}"
                 password: "{{HOMEPAGE_VAR_cluster_api_password}}"
                 node: server
-      - Worker:
-            icon: si-proxmox
-            description: Proxmox
-            href: "{{HOMEPAGE_VAR_worker_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_worker_ip}}"
-            widget:
-                type: proxmox
-                url: "{{HOMEPAGE_VAR_worker_ip}}"
-                username: "{{HOMEPAGE_VAR_cluster_api_username}}"
-                password: "{{HOMEPAGE_VAR_cluster_api_password}}"
-                node: worker
-      - 🔒 Router:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_router_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_router_url}}"
+      - TrueNas:
+            icon: si-truenas
+            href: "{{HOMEPAGE_VAR_nas_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_nas_ip}}"
       - 🔒 Server:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_server_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_server_url}}"
-      - 🔒 Worker:
+      - 🔒 TrueNas:
             icon: si-inertia
-            href: "{{HOMEPAGE_VAR_worker_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_worker_url}}"
+            href: "{{HOMEPAGE_VAR_nas_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_nas_url}}"
 - Fritz & DNS & Nginx:
       - FritzBox:
-            icon: https://avm.de/typo3conf/ext/avm/Resources/Public/Images/logo.svg
+            icon: si-1dot1dot1dot1
             href: "{{HOMEPAGE_VAR_fritzbox_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_fritzbox_ip}}"
             widget:
@@ -103,62 +81,60 @@
 - Stuff:
       - HomePage:
             icon: si-homeassistantcommunitystore
-            description: Your HomePage
             href: "{{HOMEPAGE_VAR_homepage_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_homepage_ip}}"
-      - Bitwarden:
-            icon: si-bitwarden
-            description: Your Bitwarden
-            href: "{{HOMEPAGE_VAR_bitwarden_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_bitwarden_ip}}"
-      - Mealie:
-            icon: si-franprix
-            description: Your Mealie
-            href: "{{HOMEPAGE_VAR_mealie_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_mealie_ip}}"
+      - Pairdrop:
+            icon: si-dropbox
+            href: "{{HOMEPAGE_VAR_pairdrop_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_pairdrop_ip}}"
       - Spotify:
             icon: si-spotify
-            description: Your Spotify
             href: "{{HOMEPAGE_VAR_spotify_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_spotify_ip}}"
       - 🔒 HomePage:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_homepage_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_homepage_url}}"
-      - 🔒 Bitwarden:
+      - 🔒 Pairdrop:
             icon: si-inertia
-            href: "{{HOMEPAGE_VAR_bitwarden_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_bitwarden_url}}"
-      - 🔒 Mealie:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_mealie_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_mealie_url}}"
+            href: "{{HOMEPAGE_VAR_pairdrop_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_pairdrop_url}}"
       - 🔒 Spotify:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_spotify_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_spotify_url}}"
-- Minecraft:
+
+- Minecraft Admin:
       - Ptero Panel:
             icon: si-pterodactyl
             href: "{{HOMEPAGE_VAR_ptero_panel_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_ptero_panel_ip}}"
-      - Ptero Wing 1:
+      - Ptero Wing 1 (FORGE):
             icon: si-pterodactyl
-            href: "{{HOMEPAGE_VAR_ptero_wings_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_ptero_wings_ip}}"
-      - Minecraft Server:
-            icon: si-minecraft
-            href: "{{HOMEPAGE_VAR_minecraft_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_minecraft_ip}}"
+            href: "{{HOMEPAGE_VAR_ptero_wingsone_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingsone_ip}}"
+      - Ptero Wing 2 (VANILLA):
+            icon: si-pterodactyl
+            href: "{{HOMEPAGE_VAR_ptero_wingstwo_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingstwo_ip}}"
       - 🔒 Ptero Panel:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_ptero_panel_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_ptero_panel_url}}"
-      - 🔒 Ptero Wing 1:
+      - 🔒 Ptero Wing 1 (FORGE):
             icon: si-inertia
-            href: "{{HOMEPAGE_VAR_ptero_wings_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_ptero_wings_url}}"
-      - 🔒 Minecraft Server:
+            href: "{{HOMEPAGE_VAR_ptero_wingsone_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingsone_url}}"
+      - 🔒 Ptero Wing 2 (VANILLA):
             icon: si-inertia
-            href: "{{HOMEPAGE_VAR_minecraft_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_minecraft_url}}"
+            href: "{{HOMEPAGE_VAR_ptero_wingstwo_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingstwo_url}}"
+- Minecraft Servers:
+      - Server Forge:
+            icon: si-minecraft
+            href: "{{HOMEPAGE_VAR_minecraftone_url}}"
+            description: "{{HOMEPAGE_VAR_minecraftone_ip}} / {{HOMEPAGE_VAR_minecraftone_url}}"
+      - Server Vanilla:
+            icon: si-minecraft
+            href: "{{HOMEPAGE_VAR_minecrafttwo_url}}"
+            description: "{{HOMEPAGE_VAR_minecrafttwo_ip}} / {{HOMEPAGE_VAR_minecrafttwo_url}}"

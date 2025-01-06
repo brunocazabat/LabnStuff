@@ -11,18 +11,21 @@ theme: dark
 color: slate
 
 layout:
-    Hypervisor:
+    Machines:
         style: row
-        columns: 3
+        columns: 2
     Fritz & DNS & Nginx:
         style: row
         columns: 4
     Stuff:
         style: row
-        columns: 4
-    Minecraft:
+        columns: 3
+    Minecraft Admin:
         style: row
         columns: 3
+    Minecraft Servers:
+        style: row
+        columns: 2
 
 language: en
 

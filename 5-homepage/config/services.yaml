@@ -1,5 +1,16 @@
 ---
 - Machines:
+      - Router:
+            icon: si-proxmox
+            description: Proxmox
+            href: "{{HOMEPAGE_VAR_router_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_router_ip}}"
+            widget:
+                type: proxmox
+                url: "{{HOMEPAGE_VAR_router_ip}}"
+                username: "{{HOMEPAGE_VAR_cluster_api_username}}"
+                password: "{{HOMEPAGE_VAR_cluster_api_password}}"
+                node: router
       - Server:
             icon: si-proxmox
             description: Proxmox
@@ -11,19 +22,15 @@
                 username: "{{HOMEPAGE_VAR_cluster_api_username}}"
                 password: "{{HOMEPAGE_VAR_cluster_api_password}}"
                 node: server
-      - TrueNas:
-            icon: si-truenas
-            href: "{{HOMEPAGE_VAR_nas_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_nas_ip}}"
+      - 🔒 Router:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_router_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_router_url}}"
       - 🔒 Server:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_server_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_server_url}}"
-      - 🔒 TrueNas:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_nas_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_nas_url}}"
-- Fritz & DNS & Nginx:
+- Networking:
       - FritzBox:
             icon: si-1dot1dot1dot1
             href: "{{HOMEPAGE_VAR_fritzbox_ip}}"
@@ -78,15 +85,36 @@
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_nginx_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_nginx_url}}"
-- Stuff:
-      - HomePage:
-            icon: si-homeassistantcommunitystore
-            href: "{{HOMEPAGE_VAR_homepage_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_homepage_ip}}"
+- Files & Pictures:
+      - TrueNas:
+            icon: si-truenas
+            href: "{{HOMEPAGE_VAR_nas_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_nas_ip}}"
       - Pairdrop:
             icon: si-dropbox
             href: "{{HOMEPAGE_VAR_pairdrop_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_pairdrop_ip}}"
+      - Paperless:
+            icon: si-paperlessngx
+            href: "{{HOMEPAGE_VAR_paper_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_paper_ip}}"
+      - 🔒 TrueNas:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_nas_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_nas_url}}"
+      - 🔒 Pairdrop:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_pairdrop_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_pairdrop_url}}"
+      - 🔒 Paperless:
+            icon: si-inertia
+            href: "{{HOMEPAGE_VAR_paper_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_paper_url}}"
+- Stuff:
+      - HomePage:
+            icon: si-homepage
+            href: "{{HOMEPAGE_VAR_homepage_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_homepage_ip}}"
       - Spotify:
             icon: si-spotify
             href: "{{HOMEPAGE_VAR_spotify_ip}}"
@@ -95,15 +123,10 @@
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_homepage_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_homepage_url}}"
-      - 🔒 Pairdrop:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_pairdrop_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_pairdrop_url}}"
       - 🔒 Spotify:
             icon: si-inertia
             href: "{{HOMEPAGE_VAR_spotify_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_spotify_url}}"
-
 - Minecraft Admin:
       - Ptero Panel:
             icon: si-pterodactyl

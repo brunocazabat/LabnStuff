@@ -14,12 +14,15 @@ layout:
     Machines:
         style: row
         columns: 2
-    Fritz & DNS & Nginx:
+    Networking:
         style: row
         columns: 4
-    Stuff:
+    Files & Pictures:
         style: row
         columns: 3
+    Stuff:
+        style: row
+        columns: 2
     Minecraft Admin:
         style: row
         columns: 3

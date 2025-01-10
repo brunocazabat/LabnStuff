@@ -1,15 +1,13 @@
-# From "Mom"
-lxc-attach --name "id"
-# From "Dad"
-sudo passwd root
-nano /etc/ssh/sshd_config
-# PermitRootLogin prohibit-password > PermitRootLogin yes
-systemctl restart sshd
+# This script is used to install docker on a LXC container and do the initial setup
 
-apt update && apt upgrade -y && apt -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common net-tools
+bash -c "$(wget -qO - https://raw.githubusercontent.com/brunocazabat/LabnStuff/refs/heads/main/init.sh)"
 
-curl -sSL https://install.pi-hole.net | bash
+sudo curl -sSL https://install.pi-hole.net | bash
 
-pihole -up && pihole -g
+sudo pihole -a -p # Set password
+
+sudo pihole -up # Update Pi-Hole
+
+sudo pihole -g # Update Gravity
 
 

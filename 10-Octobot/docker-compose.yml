@@ -1,0 +1,11 @@
+services:
+    octobot:
+        image: drakkarsoftware/octobot:stable
+        volumes:
+            - ./logs:/octobot/logs
+            - ./backtesting:/octobot/backtesting
+            - ./tentacles:/octobot/tentacles
+            - ./user:/octobot/user
+        ports:
+            - 3001:5001
+        restart: unless-stopped

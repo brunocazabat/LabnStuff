@@ -1,0 +1,19 @@
+services:
+    netalertx:
+        container_name: NetAlertX
+        hostname: NetAlertX
+        privileged: true
+        security_opt:
+            - no-new-privileges:true
+        image: jokobsk/netalertx:latest
+        environment:
+            - TZ=Europe/Berlin
+            - PORT=3000
+            - HOST_USER_ID=1000
+            - HOST_USER_GID=1000
+        restart: unless-stopped
+        volumes:
+            - ./netalertx/db:/app/db:rw
+            - ./netalertx/config:/app/config:rw
+            - ./netalertx/logs:/app/front/log:rw
+        network_mode: host

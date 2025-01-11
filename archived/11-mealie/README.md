@@ -8,7 +8,7 @@ Core: 1
 
 Mem: 512MB
 
-Swap: 512MB
+Swap: 0MB
 
 Disk: 8GB
 

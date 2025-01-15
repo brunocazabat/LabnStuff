@@ -3,6 +3,7 @@ services:
         image: "lscr.io/linuxserver/pairdrop:1.10.10"
         container_name: pairdrop
         restart: unless-stopped
+        env_file: .env
         environment:
             - PUID=$PUID # UID to run the application as
             - PGID=$PGID # GID to run the application as

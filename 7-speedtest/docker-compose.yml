@@ -9,11 +9,11 @@ services:
         environment:
             - PUID=$PUID
             - PGID=$PGID
+            - DISABLE_IPV6=$DISABLE_IPV6
             - APP_KEY=$APP_KEY
             - DB_CONNECTION=sqlite
             - SPEEDTEST_SCHEDULE=0 */2 * * *
             - PRUNE_RESULTS_OLDER_THAN=90
-            - DISABLE_IPV6=$DISABLE_IPV6
             - APP_TIMEZONE=Europe/Berlin
             - DISPLAY_TIMEZONE=Europe/Berlin
         volumes:

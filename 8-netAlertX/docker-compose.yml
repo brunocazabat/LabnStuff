@@ -2,6 +2,7 @@ services:
     netalertx:
         container_name: NetAlertX
         hostname: NetAlertX
+        env_file: .env
         privileged: true
         security_opt:
             - no-new-privileges:true
@@ -9,8 +10,9 @@ services:
         environment:
             - TZ=Europe/Berlin
             - PORT=3000
-            - HOST_USER_ID=1000
-            - HOST_USER_GID=1000
+            - HOST_USER_ID=$PUID
+            - HOST_USER_GID=$PGID
+            - DISABLE_IPV6=$DISABLE_IPV6
         restart: unless-stopped
         volumes:
             - ./netalertx/db:/app/db:rw

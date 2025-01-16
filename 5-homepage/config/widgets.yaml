@@ -1,14 +1,21 @@
 ---
-- resources:
-      cpu: true
-      memory: true
-      disk: /
+- openmeteo:
+      label: Ludwigsburg
+      latitude: 48.8973
+      longitude: 9.1916
+      timezone: Europe/Berlin
+      units: metric
+      cache: 5
+      format:
+          maximumFractionDigits: 1
 
 - search:
-      provider: "{{HOMEPAGE_VAR_search_provider}}"
+      provider: google
+      focus: false
+      showSearchSuggestions: true
       target: _blank
 
 - datetime:
-      text_size: xl
+      text_size: 2xl
       format:
           timeStyle: short

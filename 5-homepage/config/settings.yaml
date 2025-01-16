@@ -10,26 +10,6 @@ headerStyle: boxed
 theme: dark
 color: slate
 
-layout:
-    Machines:
-        style: row
-        columns: 2
-    Networking:
-        style: row
-        columns: 4
-    Files & Pictures:
-        style: row
-        columns: 3
-    Stuff:
-        style: row
-        columns: 2
-    Minecraft Admin:
-        style: row
-        columns: 3
-    Minecraft Servers:
-        style: row
-        columns: 2
-
 language: en
 
 useEqualHeights: true
@@ -43,3 +23,63 @@ quicklaunch:
     hideInternetSearch: false
     showSearchSuggestions: true
     hideVisitURL: true
+
+layout:
+    ##### HTTPS #####
+    Machines:
+        tab: HTTPS 🔒
+        style: row
+        columns: 4
+    Networking:
+        tab: HTTPS 🔒
+        style: row
+        columns: 3
+    Crypto & Finance:
+        tab: HTTPS 🔒
+        style: row
+        columns: 3
+    Files & Pictures:
+        tab: HTTPS 🔒
+        style: row
+        columns: 3
+    Stuff:
+        tab: HTTPS 🔒
+        style: row
+        columns: 2
+    Minecraft Admin:
+        tab: HTTPS 🔒
+        style: row
+        columns: 3
+    Minecraft Servers:
+        tab: HTTPS 🔒
+        style: row
+        columns: 2
+    ##### HTTP #####
+    _Machines:
+        tab: HTTP 🔓
+        style: row
+        columns: 4
+    _Networking:
+        tab: HTTP 🔓
+        style: row
+        columns: 3
+    _Crypto & Finance:
+        tab: HTTP 🔓
+        style: row
+        columns: 3
+    _Files & Pictures:
+        tab: HTTP 🔓
+        style: row
+        columns: 3
+    _Stuff:
+        tab: HTTP 🔓
+        style: row
+        columns: 2
+    _Minecraft Admin:
+        tab: HTTP 🔓
+        style: row
+        columns: 3
+    _Minecraft Servers:
+        tab: HTTP 🔓
+        style: row
+        columns: 2

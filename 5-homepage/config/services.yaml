@@ -3,6 +3,164 @@
       - Router:
             icon: si-proxmox
             description: Proxmox
+            href: "{{HOMEPAGE_VAR_router_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_router_url}}"
+            widget:
+                type: proxmox
+                url: "{{HOMEPAGE_VAR_router_url}}"
+                username: "{{HOMEPAGE_VAR_cluster_api_username}}"
+                password: "{{HOMEPAGE_VAR_cluster_api_password}}"
+                node: router
+      - Server:
+            icon: si-proxmox
+            description: Proxmox
+            href: "{{HOMEPAGE_VAR_server_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_server_url}}"
+            widget:
+                type: proxmox
+                url: "{{HOMEPAGE_VAR_server_url}}"
+                username: "{{HOMEPAGE_VAR_cluster_api_username}}"
+                password: "{{HOMEPAGE_VAR_cluster_api_password}}"
+                node: server
+      - PBS:
+            icon: si-proxmox # INCORRECT ICON
+            description: Proxmox Backup Server
+            href: "{{HOMEPAGE_VAR_pbs_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_pbs_url}}"
+            widget:
+                type: proxmoxbackupserver
+                url: "{{HOMEPAGE_VAR_pbs_url}}"
+                username: "{{HOMEPAGE_VAR_pbs_api_username}}"
+                password: "{{HOMEPAGE_VAR_pbs_api_password}}"
+      - NAS:
+            icon: si-truenas
+            description: TrueNAS
+            href: "{{HOMEPAGE_VAR_nas_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_nas_url}}/ui/sessions/signin"
+            widget:
+                type: truenas
+                url: "{{HOMEPAGE_VAR_nas_url}}"
+                key: "{{HOMEPAGE_VAR_truenas_api_key}}"
+                enablePools: false
+                nasType: scale
+- Networking:
+      - FritzBox:
+            icon: si-1dot1dot1dot1 # INCORRECT ICON
+            href: "{{HOMEPAGE_VAR_fritzbox_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_fritzbox_url}}"
+            widget:
+                type: fritzbox
+                url: "{{HOMEPAGE_VAR_fritzbox_ip}}" # LEAVE THIS AS IP
+                fields:
+                    [
+                        "connectionStatus",
+                        "received",
+                        "sent",
+                        "externalIPAddress",
+                    ]
+      - Pi-hole:
+            icon: si-pihole
+            href: "{{HOMEPAGE_VAR_pihole_url}}/admin"
+            siteMonitor: "{{HOMEPAGE_VAR_pihole_url}}/admin"
+            widget:
+                type: pihole
+                url: "{{HOMEPAGE_VAR_pihole_url}}"
+                key: "{{HOMEPAGE_VAR_pihole_key}}"
+      - Speedtest:
+            icon: si-speedtest
+            href: "{{HOMEPAGE_VAR_speedtest_url}}/admin"
+            siteMonitor: "{{HOMEPAGE_VAR_speedtest_url}}/admin"
+            widget:
+                type: speedtest
+                url: "{{HOMEPAGE_VAR_speedtest_url}}"
+      - Nginx Proxy Manager:
+            icon: si-nginx
+            href: "{{HOMEPAGE_VAR_nginx_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_nginx_url}}"
+            widget:
+                type: npm
+                url: "{{HOMEPAGE_VAR_nginx_url}}"
+                username: "{{HOMEPAGE_VAR_username}}"
+                password: "{{HOMEPAGE_VAR_password}}"
+      - NetAlertX:
+            icon: si-opensourcehardware # INCORRECT ICON
+            href: "{{HOMEPAGE_VAR_netalertx_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_netalertx_url}}"
+            widget:
+                type: netalertx
+                url: "{{HOMEPAGE_VAR_netalertx_url}}"
+- Crypto & Finance:
+      - CMC:
+            description: CoinMarketCap
+            icon: si-coinmarketcap
+            widget:
+                type: coinmarketcap
+                currency: EUR
+                symbols: [BTC, DOT, ADA, ATOM, MINA, TRX, BONK, SOL, AVAX]
+                defaultinterval: "1h"
+                key: "{{HOMEPAGE_VAR_cmc_api_key}}"
+      - Firefly III:
+            icon: si-fireflyiii
+            href: "{{HOMEPAGE_VAR_firefly_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_firefly_url}}"
+      - Octobot:
+            icon: si-octopusdeploy # INCORRECT ICON
+            href: "{{HOMEPAGE_VAR_octobot_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_octobot_url}}"
+- Files & Pictures:
+      - Pairdrop:
+            icon: si-dropbox immich
+            href: "{{HOMEPAGE_VAR_pairdrop_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_pairdrop_url}}"
+      - Paperless:
+            icon: si-paperlessngx
+            href: "{{HOMEPAGE_VAR_paper_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_paper_url}}"
+      - Immich:
+            icon: si-immich
+            href: "{{HOMEPAGE_VAR_immich_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_immich_url}}"
+            widget:
+                type: immich
+                url: "{{HOMEPAGE_VAR_immich_url}}"
+                key: "{{HOMEPAGE_VAR_immich_api_key}}"
+                version: 2
+- Stuff:
+      - HomePage:
+            icon: si-homepage
+            href: "{{HOMEPAGE_VAR_homepage_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_homepage_url}}"
+- Minecraft Admin:
+      - Ptero Panel:
+            icon: si-pterodactyl
+            href: "{{HOMEPAGE_VAR_ptero_panel_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_panel_url}}"
+            widget:
+                type: pterodactyl
+                url: "{{HOMEPAGE_VAR_ptero_panel_url}}"
+                key: "{{HOMEPAGE_VAR_ptero_panel_api_key}}"
+      - Ptero Wing 1 (FORGE):
+            icon: si-pterodactyl
+            href: "{{HOMEPAGE_VAR_ptero_wingsone_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingsone_url}}"
+      - Ptero Wing 2 (VANILLA):
+            icon: si-pterodactyl
+            href: "{{HOMEPAGE_VAR_ptero_wingstwo_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingstwo_url}}"
+- Minecraft Servers:
+      - Server Forge:
+            icon: si-minecraft
+            href: "{{HOMEPAGE_VAR_minecraftone_url}}"
+            description: "{{HOMEPAGE_VAR_minecraftone_ip}} / {{HOMEPAGE_VAR_minecraftone_url}}"
+      - Server Vanilla:
+            icon: si-minecraft
+            href: "{{HOMEPAGE_VAR_minecrafttwo_url}}"
+            description: "{{HOMEPAGE_VAR_minecrafttwo_ip}} / {{HOMEPAGE_VAR_minecrafttwo_url}}"
+######################################################
+- _Machines:
+      - Router:
+            icon: si-proxmox
+            description: Proxmox
             href: "{{HOMEPAGE_VAR_router_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_router_ip}}"
             widget:
@@ -22,17 +180,30 @@
                 username: "{{HOMEPAGE_VAR_cluster_api_username}}"
                 password: "{{HOMEPAGE_VAR_cluster_api_password}}"
                 node: server
-      - 🔒 Router:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_router_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_router_url}}"
-      - 🔒 Server:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_server_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_server_url}}"
-- Networking:
+      - PBS:
+            icon: si-proxmox # INCORRECT ICON
+            description: Proxmox Backup Server
+            href: "{{HOMEPAGE_VAR_pbs_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_pbs_ip}}"
+            widget:
+                type: proxmoxbackupserver
+                url: "{{HOMEPAGE_VAR_pbs_ip}}"
+                username: "{{HOMEPAGE_VAR_pbs_api_username}}"
+                password: "{{HOMEPAGE_VAR_pbs_api_password}}"
+      - NAS:
+            icon: si-truenas
+            description: TrueNAS
+            href: "{{HOMEPAGE_VAR_nas_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_nas_ip}}/ui/sessions/signin"
+            widget:
+                type: truenas
+                url: "{{HOMEPAGE_VAR_nas_ip}}"
+                key: "{{HOMEPAGE_VAR_truenas_api_key}}"
+                enablePools: false
+                nasType: scale
+- _Networking:
       - FritzBox:
-            icon: si-1dot1dot1dot1
+            icon: si-1dot1dot1dot1 # INCORRECT ICON
             href: "{{HOMEPAGE_VAR_fritzbox_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_fritzbox_ip}}"
             widget:
@@ -55,8 +226,8 @@
                 key: "{{HOMEPAGE_VAR_pihole_key}}"
       - Speedtest:
             icon: si-speedtest
-            href: "{{HOMEPAGE_VAR_speedtest_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_speedtest_ip}}"
+            href: "{{HOMEPAGE_VAR_speedtest_ip}}/admin"
+            siteMonitor: "{{HOMEPAGE_VAR_speedtest_ip}}/admin"
             widget:
                 type: speedtest
                 url: "{{HOMEPAGE_VAR_speedtest_ip}}"
@@ -69,27 +240,32 @@
                 url: "{{HOMEPAGE_VAR_nginx_ip}}"
                 username: "{{HOMEPAGE_VAR_username}}"
                 password: "{{HOMEPAGE_VAR_password}}"
-      - 🔒 FritzBox:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_fritzbox_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_fritzbox_url}}"
-      - 🔒 Pi-hole:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_pihole_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_pihole_url}}"
-      - 🔒 Speedtest:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_speedtest_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_speedtest_url}}"
-      - 🔒 Nginx Proxy Manager:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_nginx_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_nginx_url}}"
-- Files & Pictures:
-      - TrueNas:
-            icon: si-truenas
-            href: "{{HOMEPAGE_VAR_nas_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_nas_ip}}"
+      - NetAlertX:
+            icon: si-opensourcehardware # INCORRECT ICON
+            href: "{{HOMEPAGE_VAR_netalertx_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_netalertx_ip}}"
+            widget:
+                type: netalertx
+                url: "{{HOMEPAGE_VAR_netalertx_ip}}"
+- _Crypto & Finance:
+      - CMC:
+            description: CoinMarketCap
+            icon: si-coinmarketcap
+            widget:
+                type: coinmarketcap
+                currency: EUR
+                symbols: [BTC, DOT, ADA, ATOM, MINA, TRX, BONK, SOL, AVAX]
+                defaultinterval: "1h"
+                key: "{{HOMEPAGE_VAR_cmc_api_key}}"
+      - Firefly III:
+            icon: si-fireflyiii
+            href: "{{HOMEPAGE_VAR_firefly_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_firefly_ip}}"
+      - Octobot:
+            icon: si-octopusdeploy # INCORRECT ICON
+            href: "{{HOMEPAGE_VAR_octobot_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_octobot_ip}}"
+- _Files & Pictures:
       - Pairdrop:
             icon: si-dropbox
             href: "{{HOMEPAGE_VAR_pairdrop_ip}}"
@@ -98,40 +274,29 @@
             icon: si-paperlessngx
             href: "{{HOMEPAGE_VAR_paper_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_paper_ip}}"
-      - 🔒 TrueNas:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_nas_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_nas_url}}"
-      - 🔒 Pairdrop:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_pairdrop_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_pairdrop_url}}"
-      - 🔒 Paperless:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_paper_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_paper_url}}"
-- Stuff:
+      - Immich:
+            icon: si-immich
+            href: "{{HOMEPAGE_VAR_immich_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_immich_ip}}"
+            widget:
+                type: immich
+                url: "{{HOMEPAGE_VAR_immich_ip}}"
+                key: "{{HOMEPAGE_VAR_immich_api_key}}"
+                version: 2
+- _Stuff:
       - HomePage:
             icon: si-homepage
             href: "{{HOMEPAGE_VAR_homepage_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_homepage_ip}}"
-      - Spotify:
-            icon: si-spotify
-            href: "{{HOMEPAGE_VAR_spotify_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_spotify_ip}}"
-      - 🔒 HomePage:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_homepage_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_homepage_url}}"
-      - 🔒 Spotify:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_spotify_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_spotify_url}}"
-- Minecraft Admin:
+- _Minecraft Admin:
       - Ptero Panel:
             icon: si-pterodactyl
             href: "{{HOMEPAGE_VAR_ptero_panel_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_ptero_panel_ip}}"
+            widget:
+                type: pterodactyl
+                url: "{{HOMEPAGE_VAR_ptero_panel_ip}}"
+                key: "{{HOMEPAGE_VAR_ptero_panel_api_key}}"
       - Ptero Wing 1 (FORGE):
             icon: si-pterodactyl
             href: "{{HOMEPAGE_VAR_ptero_wingsone_ip}}"
@@ -140,24 +305,12 @@
             icon: si-pterodactyl
             href: "{{HOMEPAGE_VAR_ptero_wingstwo_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_ptero_wingstwo_ip}}"
-      - 🔒 Ptero Panel:
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_ptero_panel_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_ptero_panel_url}}"
-      - 🔒 Ptero Wing 1 (FORGE):
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_ptero_wingsone_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingsone_url}}"
-      - 🔒 Ptero Wing 2 (VANILLA):
-            icon: si-inertia
-            href: "{{HOMEPAGE_VAR_ptero_wingstwo_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingstwo_url}}"
-- Minecraft Servers:
+- _Minecraft Servers:
       - Server Forge:
             icon: si-minecraft
-            href: "{{HOMEPAGE_VAR_minecraftone_url}}"
+            href: "{{HOMEPAGE_VAR_minecraftone_ip}}"
             description: "{{HOMEPAGE_VAR_minecraftone_ip}} / {{HOMEPAGE_VAR_minecraftone_url}}"
       - Server Vanilla:
             icon: si-minecraft
-            href: "{{HOMEPAGE_VAR_minecrafttwo_url}}"
+            href: "{{HOMEPAGE_VAR_minecrafttwo_ip}}"
             description: "{{HOMEPAGE_VAR_minecrafttwo_ip}} / {{HOMEPAGE_VAR_minecrafttwo_url}}"

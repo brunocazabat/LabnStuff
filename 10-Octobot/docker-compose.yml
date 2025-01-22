@@ -1,11 +1,48 @@
 services:
-    octobot:
-        image: drakkarsoftware/octobot:stable
-        volumes:
-            - ./logs:/octobot/logs
-            - ./backtesting:/octobot/backtesting
-            - ./tentacles:/octobot/tentacles
-            - ./user:/octobot/user
-        ports:
-            - 3001:5001
+    watchtower:
+        image: containrrr/watchtower
+        container_name: watchtower
         restart: unless-stopped
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket for Watchtower to interact with Docker.
+        command: --cleanup --interval 86400 # Check for updates and clean up old images every 24 hours.
+        networks:
+            - octobot_network # Attach Watchtower to the custom network.
+
+    octobot:
+        container_name: Octobot # Container name for easy identification.
+        hostname: Octobot # Set the container hostname.
+        image: drakkarsoftware/octobot:stable # Use the stable version of Octobot.
+        restart: unless-stopped # Automatically restart the container unless manually stopped.
+        volumes:
+            - ./logs:/octobot/logs # Persist log files in ./logs directory.
+            - ./backtesting:/octobot/backtesting # Persist backtesting results in ./backtesting directory.
+            - ./tentacles:/octobot/tentacles # Persist tentacle configurations in ./tentacles directory.
+            - ./user:/octobot/user # Persist user-specific data in ./user directory.
+        env_file: .env # Load environment variables from .env file.
+        ports:
+            - "3001:5001" # Expose port 5001 on the container to port 3001 on the host.
+        environment:
+            - DISABLE_IPV6=${DISABLE_IPV6} # Set IPv6 support based on environment variable.
+        healthcheck: # Health check to verify the application is responsive.
+            test: ["CMD", "curl", "-f", "http://localhost:5001"] # Check if Octobot is running by hitting the web interface.
+            interval: 30s # Run health check every 30 seconds.
+            timeout: 10s # Timeout after 10 seconds if no response.
+            retries: 3 # Retry up to 3 times if health check fails.
+            start_period: 10s # Delay the start of health checks by 10 seconds after container starts.
+        logging:
+            driver: json-file # Use JSON file format for logging.
+            options:
+                max-size: "10m" # Limit log size to 10MB.
+                max-file: "3" # Keep a maximum of 3 log files.
+        deploy:
+            resources: # Set resource limits for the container.
+                limits:
+                    cpus: "1" # Limit to 1 CPU core.
+                    memory: "768M" # Limit to 768MB of RAM.
+        networks:
+            - octobot_network # Attach to the custom network for communication between containers.
+
+networks:
+    octobot_network:
+        driver: bridge # Use a custom bridge network for secure communication between services.

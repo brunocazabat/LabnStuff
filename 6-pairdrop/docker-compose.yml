@@ -1,17 +1,54 @@
 services:
-    pairdrop:
-        image: "lscr.io/linuxserver/pairdrop:1.10.10"
-        container_name: pairdrop
+    watchtower:
+        image: containrrr/watchtower
+        container_name: watchtower
         restart: unless-stopped
-        env_file: .env
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket to allow Watchtower to interact with Docker.
+        command: --cleanup --interval 86400 # Cleanup old images and check for updates every 24 hours.
+        networks:
+            - custom_network # Attach Watchtower to the custom network.
+
+    pairdrop:
+        image: "lscr.io/linuxserver/pairdrop:latest" # Use the specified image for pairdrop.
+        container_name: pairdrop # Name the container "pairdrop" for easier identification.
+        hostname: pairdrop # Set the hostname of the container to "pairdrop".
+        restart: unless-stopped # Automatically restart the container unless manually stopped.
+        env_file: .env # Load environment variables from the .env file.
         environment:
-            - PUID=$PUID # UID to run the application as
-            - PGID=$PGID # GID to run the application as
-            - WS_FALLBACK=false # Set to true to enable websocket fallback if the peer to peer WebRTC connection is not available to the client.
-            - RATE_LIMIT=false # Set to true to limit clients to 1000 requests per 5 min.
-            - RTC_CONFIG=false # Set to the path of a file that specifies the STUN/TURN servers.
-            - DEBUG_MODE=false # Set to true to debug container and peer connections.
-            - TZ=Europe/Berlin # Specify a timezone to use e.g. `Europe/Berlin`
-            - DISABLE_IPV6=$DISABLE_IPV6 # Set to true to disable IPv6
+            - PUID=${PUID} # UID to run the application as.
+            - PGID=${PGID} # GID to run the application as.
+            - WS_FALLBACK=false # Enable or disable websocket fallback if WebRTC is not available.
+            - RATE_LIMIT=false # Set rate limiting to false.
+            - RTC_CONFIG=false # Set to specify the path for STUN/TURN servers.
+            - DEBUG_MODE=false # Set to true for debugging.
+            - TZ=Europe/Berlin # Set the timezone to use for the container.
+            - DISABLE_IPV6=${DISABLE_IPV6} # Optionally disable IPv6.
         ports:
-            - "3000:3000" # Web UI. Change the port number before the last colon e.g. `127.0.0.1:9000:3000`
+            - "3000:3000" # Map port 3000 on the host to port 3000 in the container for the web UI.
+        volumes:
+            - ./pairdrop_config:/config:rw # Mount a local directory for persistent config data (read-write).
+            - ./pairdrop_data:/data:rw # Mount a local directory for persistent data (read-write).
+        healthcheck: # Define a health check to ensure the service is running correctly.
+            test: ["CMD", "curl", "-f", "http://localhost:3000"] # Use curl to check if the app is responding on port 3000.
+            interval: 30s # Perform the health check every 30 seconds.
+            timeout: 10s # Wait up to 10 seconds for a response before marking the check as failed.
+            retries: 3 # Retry the health check 3 times before marking the container as unhealthy.
+            start_period: 10s # Wait 10 seconds after starting the container before running health checks.
+        logging: # Configure log rotation to prevent excessive disk usage.
+            driver: json-file # Use the default JSON file logging driver.
+            options:
+                max-size: "10m" # Limit individual log file size to 10MB.
+                max-file: "3" # Keep a maximum of 3 log files.
+        deploy:
+            resources: # Set resource limits to manage the container's impact on the host system.
+                limits:
+                    cpus: "1" # Limit the container to using 1 CPU core.
+                    memory: "768M" # Limit the container to using 768MB of RAM.
+        networks:
+            - custom_network # Attach the container to the custom network.
+
+# Define the custom bridge network for communication between services.
+networks:
+    custom_network:
+        driver: bridge # Use the bridge network driver for service communication.

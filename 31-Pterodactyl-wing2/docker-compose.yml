@@ -1,6 +1,7 @@
 services:
     wings:
         container_name: wings
+        hostname: pterodactyl_wing2
         image: ghcr.io/pterodactyl/wings:latest
         restart: unless-stopped
         networks:

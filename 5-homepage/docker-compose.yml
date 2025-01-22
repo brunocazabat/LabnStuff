@@ -1,15 +1,55 @@
 services:
-    homepage:
-        image: ghcr.io/gethomepage/homepage:latest
-        container_name: homepage
-        environment:
-            PUID: $PUID
-            PGID: $PGID
-            DISABLE_IPV6: $DISABLE_IPV6
-        ports:
-            - 3000:3000
-        env_file: .env
+    # Watchtower service to automatically update containers when new versions of their images are available.
+    watchtower:
+        image: containrrr/watchtower # The official Watchtower image.
+        container_name: watchtower # Name the container "watchtower" for easier identification.
+        restart: unless-stopped # Automatically restart Watchtower unless manually stopped.
         volumes:
-            - ./config:/app/config
-            - ./images:/app/public/images
-        restart: unless-stopped
+            - /var/run/docker.sock:/var/run/docker.sock # Mount the Docker socket to allow Watchtower to interact with the Docker daemon.
+        command:
+            --cleanup --interval 86400 # Configure Watchtower:
+            # --cleanup: Remove old images after updates.
+            # --interval 86400: Check for updates every 24 hours (86400 seconds).
+        networks:
+            - custom_network # Attach Watchtower to the same custom network as other services.
+
+    # Homepage service to host a customizable homepage with quick links and search functionality.
+    homepage:
+        image: ghcr.io/gethomepage/homepage:latest # Use the latest image for homepage.
+        container_name: homepage # Name the container "homepage" for easier identification.
+        hostname: homepage # Set the hostname of the container to "homepage".
+        environment:
+            PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
+            PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
+            DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
+        ports:
+            - "3000:3000" # Map port 3000 on the host to port 3000 in the container (for the app's web interface).
+        env_file:
+            - .env # Load environment variables from the .env file.
+        volumes:
+            - ./config:/app/config:rw # Persist the app's configuration data to the local "config" directory (read-write).
+            - ./images:/app/public/images:rw # Persist the images to the local "images" directory (read-write).
+        restart: unless-stopped # Automatically restart the container unless manually stopped.
+        healthcheck: # Define a health check to ensure the service is running correctly.
+            test: ["CMD", "curl", "-f", "http://localhost:3000"] # Use curl to check if the app is responding on port 3000.
+            interval: 30s # Perform the health check every 30 seconds.
+            timeout: 10s # Wait up to 10 seconds for a response before marking the check as failed.
+            retries: 3 # Retry the health check 3 times before marking the container as unhealthy.
+            start_period: 10s # Wait 10 seconds after starting the container before running health checks.
+        logging: # Configure log rotation to prevent excessive disk usage.
+            driver: json-file # Use the default JSON file logging driver.
+            options:
+                max-size: "10m" # Limit individual log file size to 10MB.
+                max-file: "3" # Keep a maximum of 3 log files.
+        deploy:
+            resources: # Set resource limits to manage the container's impact on the host system.
+                limits:
+                    cpus: "1" # Limit the container to using 1 CPU core.
+                    memory: "768M" # Limit the container to using 768MB of RAM.
+        networks:
+            - custom_network # Attach the container to the custom network.
+
+# Define the custom bridge network for communication between services.
+networks:
+    custom_network:
+        driver: bridge # Use the bridge network driver for service communication.

@@ -30,6 +30,7 @@ services:
 
     panel:
         container_name: panel
+        hostname: pterodactyl_panel
         image: ghcr.io/pterodactyl/panel:v1.11.10
         env_file: .env
         restart: unless-stopped

@@ -51,6 +51,25 @@ services:
         networks:
             - custom_network # Attach the container to the custom network.
 
+    duckdns:
+        image: lscr.io/linuxserver/duckdns:latest
+        container_name: duckdns
+        restart: unless-stopped # Automatically restart the container unless manually stopped.
+        env_file:
+            - .env # Load additional environment variables from a .env file.
+        environment:
+            - PUID=${PUID} # Set the user ID for file permissions using an environment variable.
+            - PGID=${PGID} # Set the group ID for file permissions using an environment variable.
+            - TZ=Europe/Berlin
+            - SUBDOMAINS=${DUCKDNS_DOMAINS}
+            - TOKEN=${DUCKDNS_TOKEN}
+            - UPDATE_IP=ipv4
+        volumes:
+            - ./duckdns-updater:/config #optional
+
+        networks:
+            - custom_network # Attach the container to the custom network.
+
 # Define the custom bridge network for communication between services.
 networks:
     custom_network:

@@ -38,18 +38,21 @@ layout:
         tab: HTTPS 🔒
         style: row
         columns: 3
+        useEqualHeights: false
     Files & Pictures:
         tab: HTTPS 🔒
         style: row
         columns: 3
-    Stuff:
-        tab: HTTPS 🔒
-        style: row
-        columns: 2
+        useEqualHeights: false
+    # Stuff:
+    #     tab: HTTPS 🔒
+    #     style: row
+    #     columns: 1
     Minecraft Admin:
         tab: HTTPS 🔒
         style: row
         columns: 3
+        useEqualHeights: false
     Minecraft Servers:
         tab: HTTPS 🔒
         style: row
@@ -67,18 +70,21 @@ layout:
         tab: HTTP 🔓
         style: row
         columns: 3
+        useEqualHeights: false
     _Files & Pictures:
         tab: HTTP 🔓
         style: row
         columns: 3
-    _Stuff:
-        tab: HTTP 🔓
-        style: row
-        columns: 2
+        useEqualHeights: false
+    # _Stuff:
+    #     tab: HTTP 🔓
+    #     style: row
+    #     columns: 1
     _Minecraft Admin:
         tab: HTTP 🔓
         style: row
         columns: 3
+        useEqualHeights: false
     _Minecraft Servers:
         tab: HTTP 🔓
         style: row

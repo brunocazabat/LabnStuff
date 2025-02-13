@@ -1,1 +1,16 @@
-/* Remove the empty source code block */
+@font-face {
+  font-family: "doto";
+  src: url("/images/doto.ttf") format("truetype");
+}
+
+.service-group-name {
+  font-family: "doto";
+  background-color: #2a672373;
+  border-radius: 15px;
+  color: white;
+  padding: 0px 15px 0px 15px;
+}
+
+.pb-1 {
+  display: none !important;
+}

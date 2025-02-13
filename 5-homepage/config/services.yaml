@@ -22,16 +22,17 @@
                 username: "{{HOMEPAGE_VAR_cluster_api_username}}"
                 password: "{{HOMEPAGE_VAR_cluster_api_password}}"
                 node: server
-      - PBS:
-            icon: si-proxmox # INCORRECT ICON
-            description: Proxmox Backup Server
-            href: "{{HOMEPAGE_VAR_pbs_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_pbs_url}}"
+      - Orbiter:
+            icon: si-proxmox
+            description: Proxmox
+            href: "{{HOMEPAGE_VAR_orbiter_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_orbiter_url}}"
             widget:
-                type: proxmoxbackupserver
-                url: "{{HOMEPAGE_VAR_pbs_url}}"
-                username: "{{HOMEPAGE_VAR_pbs_api_username}}"
-                password: "{{HOMEPAGE_VAR_pbs_api_password}}"
+                type: proxmox
+                url: "{{HOMEPAGE_VAR_orbiter_url}}"
+                username: "{{HOMEPAGE_VAR_cluster_api_username}}"
+                password: "{{HOMEPAGE_VAR_cluster_api_password}}"
+                node: orbiter
       - NAS:
             icon: si-truenas
             description: TrueNAS
@@ -90,32 +91,28 @@
                 type: netalertx
                 url: "{{HOMEPAGE_VAR_netalertx_url}}"
 - Crypto & Finance:
+      - Firefly III:
+            icon: si-fireflyiii
+            href: "{{HOMEPAGE_VAR_firefly_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_firefly_url}}"
       - CMC:
             description: CoinMarketCap
             icon: si-coinmarketcap
             widget:
                 type: coinmarketcap
                 currency: EUR
-                symbols: [BTC, DOT, ADA, ATOM, MINA, TRX, BONK, SOL, AVAX]
+                symbols: [BTC]
                 defaultinterval: "1h"
                 key: "{{HOMEPAGE_VAR_cmc_api_key}}"
-      - Firefly III:
-            icon: si-fireflyiii
-            href: "{{HOMEPAGE_VAR_firefly_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_firefly_url}}"
       - Octobot:
             icon: si-octopusdeploy # INCORRECT ICON
             href: "{{HOMEPAGE_VAR_octobot_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_octobot_url}}"
 - Files & Pictures:
       - Pairdrop:
-            icon: si-dropbox immich
+            icon: si-dropbox
             href: "{{HOMEPAGE_VAR_pairdrop_url}}"
             siteMonitor: "{{HOMEPAGE_VAR_pairdrop_url}}"
-      - Paperless:
-            icon: si-paperlessngx
-            href: "{{HOMEPAGE_VAR_paper_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_paper_url}}"
       - Immich:
             icon: si-immich
             href: "{{HOMEPAGE_VAR_immich_url}}"
@@ -125,12 +122,20 @@
                 url: "{{HOMEPAGE_VAR_immich_url}}"
                 key: "{{HOMEPAGE_VAR_immich_api_key}}"
                 version: 2
-- Stuff:
-      - HomePage:
-            icon: si-homepage
-            href: "{{HOMEPAGE_VAR_homepage_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_homepage_url}}"
+      - Paperless:
+            icon: si-paperlessngx
+            href: "{{HOMEPAGE_VAR_paper_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_paper_url}}"
+# - Stuff:
+#       - HomePage:
+#             icon: si-homepage
+#             href: "{{HOMEPAGE_VAR_homepage_url}}"
+#             siteMonitor: "{{HOMEPAGE_VAR_homepage_url}}"
 - Minecraft Admin:
+      - Ptero Wing 1 (FORGE):
+            icon: si-pterodactyl
+            href: "{{HOMEPAGE_VAR_ptero_wingsone_url}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingsone_url}}"
       - Ptero Panel:
             icon: si-pterodactyl
             href: "{{HOMEPAGE_VAR_ptero_panel_url}}"
@@ -139,10 +144,6 @@
                 type: pterodactyl
                 url: "{{HOMEPAGE_VAR_ptero_panel_url}}"
                 key: "{{HOMEPAGE_VAR_ptero_panel_api_key}}"
-      - Ptero Wing 1 (FORGE):
-            icon: si-pterodactyl
-            href: "{{HOMEPAGE_VAR_ptero_wingsone_url}}"
-            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingsone_url}}"
       - Ptero Wing 2 (VANILLA):
             icon: si-pterodactyl
             href: "{{HOMEPAGE_VAR_ptero_wingstwo_url}}"
@@ -180,16 +181,17 @@
                 username: "{{HOMEPAGE_VAR_cluster_api_username}}"
                 password: "{{HOMEPAGE_VAR_cluster_api_password}}"
                 node: server
-      - PBS:
-            icon: si-proxmox # INCORRECT ICON
-            description: Proxmox Backup Server
-            href: "{{HOMEPAGE_VAR_pbs_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_pbs_ip}}"
+      - Orbiter:
+            icon: si-proxmox
+            description: Proxmox
+            href: "{{HOMEPAGE_VAR_orbiter_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_orbiter_ip}}"
             widget:
-                type: proxmoxbackupserver
-                url: "{{HOMEPAGE_VAR_pbs_ip}}"
-                username: "{{HOMEPAGE_VAR_pbs_api_username}}"
-                password: "{{HOMEPAGE_VAR_pbs_api_password}}"
+                type: proxmox
+                url: "{{HOMEPAGE_VAR_orbiter_ip}}"
+                username: "{{HOMEPAGE_VAR_cluster_api_username}}"
+                password: "{{HOMEPAGE_VAR_cluster_api_password}}"
+                node: orbiter
       - NAS:
             icon: si-truenas
             description: TrueNAS
@@ -248,19 +250,19 @@
                 type: netalertx
                 url: "{{HOMEPAGE_VAR_netalertx_ip}}"
 - _Crypto & Finance:
+      - Firefly III:
+            icon: si-fireflyiii
+            href: "{{HOMEPAGE_VAR_firefly_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_firefly_ip}}"
       - CMC:
             description: CoinMarketCap
             icon: si-coinmarketcap
             widget:
                 type: coinmarketcap
                 currency: EUR
-                symbols: [BTC, DOT, ADA, ATOM, MINA, TRX, BONK, SOL, AVAX]
+                symbols: [BTC]
                 defaultinterval: "1h"
                 key: "{{HOMEPAGE_VAR_cmc_api_key}}"
-      - Firefly III:
-            icon: si-fireflyiii
-            href: "{{HOMEPAGE_VAR_firefly_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_firefly_ip}}"
       - Octobot:
             icon: si-octopusdeploy # INCORRECT ICON
             href: "{{HOMEPAGE_VAR_octobot_ip}}"
@@ -270,10 +272,6 @@
             icon: si-dropbox
             href: "{{HOMEPAGE_VAR_pairdrop_ip}}"
             siteMonitor: "{{HOMEPAGE_VAR_pairdrop_ip}}"
-      - Paperless:
-            icon: si-paperlessngx
-            href: "{{HOMEPAGE_VAR_paper_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_paper_ip}}"
       - Immich:
             icon: si-immich
             href: "{{HOMEPAGE_VAR_immich_ip}}"
@@ -283,12 +281,20 @@
                 url: "{{HOMEPAGE_VAR_immich_ip}}"
                 key: "{{HOMEPAGE_VAR_immich_api_key}}"
                 version: 2
-- _Stuff:
-      - HomePage:
-            icon: si-homepage
-            href: "{{HOMEPAGE_VAR_homepage_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_homepage_ip}}"
+      - Paperless:
+            icon: si-paperlessngx
+            href: "{{HOMEPAGE_VAR_paper_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_paper_ip}}"
+# - _Stuff:
+#       - HomePage:
+#             icon: si-homepage
+#             href: "{{HOMEPAGE_VAR_homepage_ip}}"
+#             siteMonitor: "{{HOMEPAGE_VAR_homepage_ip}}"
 - _Minecraft Admin:
+      - Ptero Wing 1 (FORGE):
+            icon: si-pterodactyl
+            href: "{{HOMEPAGE_VAR_ptero_wingsone_ip}}"
+            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingsone_ip}}"
       - Ptero Panel:
             icon: si-pterodactyl
             href: "{{HOMEPAGE_VAR_ptero_panel_ip}}"
@@ -297,10 +303,6 @@
                 type: pterodactyl
                 url: "{{HOMEPAGE_VAR_ptero_panel_ip}}"
                 key: "{{HOMEPAGE_VAR_ptero_panel_api_key}}"
-      - Ptero Wing 1 (FORGE):
-            icon: si-pterodactyl
-            href: "{{HOMEPAGE_VAR_ptero_wingsone_ip}}"
-            siteMonitor: "{{HOMEPAGE_VAR_ptero_wingsone_ip}}"
       - Ptero Wing 2 (VANILLA):
             icon: si-pterodactyl
             href: "{{HOMEPAGE_VAR_ptero_wingstwo_ip}}"

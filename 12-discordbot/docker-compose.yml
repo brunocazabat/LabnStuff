@@ -1,0 +1,32 @@
+services:
+    redbot:
+        container_name: redbot
+        image: phasecorex/red-discordbot:latest
+        env_file: .env
+        restart: unless-stopped
+        volumes:
+            - ./redbot:/data
+        environment:
+            - TOKEN=${TOKEN}
+            - PREFIX=.
+            - TZ=Europe/Berlin
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - DISABLE_IPV6=${DISABLE_IPV6}
+        networks:
+            - app_network
+
+    watchtower:
+        image: containrrr/watchtower:latest
+        container_name: watchtower
+        restart: always
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            WATCHTOWER_CLEANUP: "true"
+            WATCHTOWER_LABEL_ENABLE: "true"
+        networks:
+            - app_network
+
+networks:
+    app_network:

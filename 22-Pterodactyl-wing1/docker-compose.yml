@@ -1,45 +1,71 @@
+##### GENERATED START #####
+# Order: defaults_values, image, container_name, depends_on, environment, ports, volumes, healthcheck
+x-defaults: &defaults_values
+    restart: unless-stopped # Automatically restart the container unless manually stopped.
+    env_file: .env # Load additional environment variables from a .env file.
+    environment:
+        TZ: Europe/Berlin # Set the application timezone.
+        PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
+        PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
+        DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
+    logging: # Configure log rotation to prevent excessive disk usage.
+        driver: local # Use the default local logging driver.
+        options:
+            max-size: "20m" # Limit individual log file size to 20MB.
+            max-file: "5" # Keep a maximum of 5 log files.
+            compress: "true" # Compress log files to save disk space.
+    networks: [wings]
+
 services:
+    # Watchtower service to automatically update containers when new versions of their images are available.
+    watchtower:
+        <<: *defaults_values
+        image: containrrr/watchtower # The official Watchtower image.
+        container_name: watchtower # Name the container "watchtower" for easier identification.
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:rw # Mount the Docker socket to allow Watchtower to interact with the Docker daemon.
+        command:
+            --cleanup --interval 86400 # Configure Watchtower:
+            # --cleanup: Remove old images after updates.
+            # --interval 86400: Check for updates every 24 hours (86400 seconds).
+    ##### GENERATED END #####
+
+    ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
     wings:
-        container_name: wings
-        hostname: pterodactyl_wing1
+        <<: *defaults_values
         image: ghcr.io/pterodactyl/wings:latest
-        restart: unless-stopped
-        networks:
-            - wings
+        container_name: wings
         ports:
-            - $PORT:443
-            - $PORT_SFTP:2022
+            - "${PORT}:443"
+            - "${PORT_SFTP}:2022"
         tty: true
         environment:
-            TZ: Europe/Berlin
-            WINGS_UID: $UID
-            WINGS_GID: $GID
-            WINGS_USERNAME: pterodactyl
+            WINGS_UID: "${UID}"
+            WINGS_GID: "${GID}"
+            WINGS_USERNAME: "${USER}"
         volumes:
-            - "/var/run/docker.sock:/var/run/docker.sock"
-            - "/var/lib/docker/containers/:/var/lib/docker/containers/"
-            - "/etc/pterodactyl/:/etc/pterodactyl/"
-            - "/var/lib/pterodactyl/:/var/lib/pterodactyl/"
-            - "/var/log/pterodactyl/:/var/log/pterodactyl/"
-            - "/tmp/pterodactyl/:/tmp/pterodactyl/"
-            - "/etc/ssl/certs:/etc/ssl/certs:ro"
+            - /var/run/docker.sock:/var/run/docker.sock:rw
+            - /var/lib/docker/containers/:/var/lib/docker/containers/:rw
+            - /etc/pterodactyl/:/etc/pterodactyl/:rw
+            - /var/lib/pterodactyl/:/var/lib/pterodactyl/:rw
+            - /var/log/pterodactyl/:/var/log/pterodactyl/:rw
+            - /tmp/pterodactyl/:/tmp/pterodactyl/:rw
+            - /etc/ssl/certs:/etc/ssl/certs:ro
 
     db:
-        container_name: db
+        <<: *defaults_values
         image: mariadb:10.11
-        restart: unless-stopped
+        container_name: db
         command: --default-authentication-plugin=mysql_native_password
         ports:
-            - $PORT_DB:3306
-        networks:
-            - wings
+            - "${PORT_DB}:3306"
         volumes:
-            - db:/var/lib/mysql
+            - db:/var/lib/mysql:rw
         environment:
             - MYSQL_DATABASE="servers"
             - MYSQL_USER="pterodactyl"
-            - MYSQL_PASSWORD=$SQL_PASS
-            - MYSQL_ROOT_PASSWORD=$SQL_PASS_ROOT
+            - MYSQL_PASSWORD="${SQL_PASS}"
+            - MYSQL_ROOT_PASSWORD="${SQL_PASS_ROOT}"
 
 networks:
     wings:

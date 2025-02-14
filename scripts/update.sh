@@ -2,6 +2,4 @@
 
 sed -i "s|http://archive.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g" /etc/apt/sources.list
 
-# can I replace
-
 apt update && apt upgrade -y && do-release-upgrade

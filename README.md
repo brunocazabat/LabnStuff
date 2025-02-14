@@ -233,3 +233,25 @@ Follow the commands from the `LXC-docker. bash` file.
 Drop the `docker-compose.yml` file in your LXC container and run `docker-compose up -d`.
 
 That's it. Access the web interface and use your new budgeting tool.
+
+## 21 - Pterodactyl Panel
+
+### 21 - Install
+
+```bash
+    docker compose run --rm panel php artisan p:user:make
+```
+
+## 22 - Pterodactyl Wings 1
+
+## 22 - Install
+
+```bash
+    nano /etc/pterodactyl/config.yml
+```
+
+Some stuff to change in there. Get confirmaion from the official documentation.
+
+## 23 - Pterodactyl Wings 2
+
+Same as 21.

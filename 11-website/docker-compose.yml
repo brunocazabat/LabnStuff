@@ -1,8 +1,45 @@
+##### GENERATED START #####
+# Define the custom bridge network for communication between services.
+networks:
+    custom_network:
+        driver: bridge # Use the bridge network driver for service communication.
+
+# Order: defaults_values, image, container_name, depends_on, environment, ports, volumes, healthcheck
+x-defaults: &defaults_values
+    restart: unless-stopped # Automatically restart the container unless manually stopped.
+    env_file: .env # Load additional environment variables from a .env file.
+    environment:
+        TZ: Europe/Berlin # Set the application timezone.
+        PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
+        PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
+        DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
+    logging: # Configure log rotation to prevent excessive disk usage.
+        driver: local # Use the default local logging driver.
+        options:
+            max-size: "20m" # Limit individual log file size to 20MB.
+            max-file: "5" # Keep a maximum of 5 log files.
+            compress: "true" # Compress log files to save disk space.
+    networks: [custom_network] # Attach the container to the custom network.
+
 services:
+    # Watchtower service to automatically update containers when new versions of their images are available.
+    watchtower:
+        <<: *defaults_values
+        image: containrrr/watchtower # The official Watchtower image.
+        container_name: watchtower # Name the container "watchtower" for easier identification.
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:rw # Mount the Docker socket to allow Watchtower to interact with the Docker daemon.
+        command:
+            --cleanup --interval 86400 # Configure Watchtower:
+            # --cleanup: Remove old images after updates.
+            # --interval 86400: Check for updates every 24 hours (86400 seconds).
+    ##### GENERATED END #####
+
+    ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
     db:
+        <<: *defaults_values
         image: mysql:8.0
         container_name: mysql_db
-        restart: always
         environment:
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
             MYSQL_DATABASE: ${DB_NAME}
@@ -10,15 +47,13 @@ services:
             MYSQL_PASSWORD: ${DB_PASSWORD}
         volumes:
             - ./db_data:/var/lib/mysql:rw
-        networks:
-            - app_network
 
     wordpress:
+        <<: *defaults_values
         image: wordpress:latest
         container_name: wordpress
         depends_on:
             - db
-        restart: always
         environment:
             WORDPRESS_DB_HOST: db:3306
             WORDPRESS_DB_NAME: ${DB_NAME}
@@ -28,34 +63,27 @@ services:
             - "8080:80"
         volumes:
             - ./wordpress_data:/var/www/html:rw
-        networks:
-            - app_network
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:80"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 10s
 
     phpmyadmin:
+        <<: *defaults_values
         image: phpmyadmin:latest
         container_name: phpmyadmin
         depends_on:
             - db
-        restart: always
         environment:
             PMA_HOST: db
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
         ports:
             - "8081:80"
-        networks:
-            - app_network
-
-    watchtower:
-        image: containrrr/watchtower:latest
-        container_name: watchtower
-        restart: always
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-        environment:
-            WATCHTOWER_CLEANUP: "true"
-            WATCHTOWER_LABEL_ENABLE: "true"
-        networks:
-            - app_network
-
-networks:
-    app_network:
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:80"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 10s

@@ -1,48 +1,55 @@
-services:
-    watchtower:
-        image: containrrr/watchtower
-        container_name: watchtower
-        restart: unless-stopped
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket for Watchtower to interact with Docker.
-        command: --cleanup --interval 86400 # Check for updates and clean up old images every 24 hours.
-        networks:
-            - octobot_network # Attach Watchtower to the custom network.
-
-    octobot:
-        container_name: Octobot # Container name for easy identification.
-        hostname: Octobot # Set the container hostname.
-        image: drakkarsoftware/octobot:stable # Use the stable version of Octobot.
-        restart: unless-stopped # Automatically restart the container unless manually stopped.
-        volumes:
-            - ./logs:/octobot/logs # Persist log files in ./logs directory.
-            - ./backtesting:/octobot/backtesting # Persist backtesting results in ./backtesting directory.
-            - ./tentacles:/octobot/tentacles # Persist tentacle configurations in ./tentacles directory.
-            - ./user:/octobot/user # Persist user-specific data in ./user directory.
-        env_file: .env # Load environment variables from .env file.
-        ports:
-            - "3001:5001" # Expose port 5001 on the container to port 3001 on the host.
-        environment:
-            - DISABLE_IPV6=${DISABLE_IPV6} # Set IPv6 support based on environment variable.
-        healthcheck: # Health check to verify the application is responsive.
-            test: ["CMD", "curl", "-f", "http://localhost:5001"] # Check if Octobot is running by hitting the web interface.
-            interval: 30s # Run health check every 30 seconds.
-            timeout: 10s # Timeout after 10 seconds if no response.
-            retries: 3 # Retry up to 3 times if health check fails.
-            start_period: 10s # Delay the start of health checks by 10 seconds after container starts.
-        logging:
-            driver: json-file # Use JSON file format for logging.
-            options:
-                max-size: "10m" # Limit log size to 10MB.
-                max-file: "3" # Keep a maximum of 3 log files.
-        deploy:
-            resources: # Set resource limits for the container.
-                limits:
-                    cpus: "1" # Limit to 1 CPU core.
-                    memory: "768M" # Limit to 768MB of RAM.
-        networks:
-            - octobot_network # Attach to the custom network for communication between containers.
-
+##### GENERATED START #####
+# Define the custom bridge network for communication between services.
 networks:
-    octobot_network:
-        driver: bridge # Use a custom bridge network for secure communication between services.
+    custom_network:
+        driver: bridge # Use the bridge network driver for service communication.
+
+# Order: defaults_values, image, container_name, depends_on, environment, ports, volumes, healthcheck
+x-defaults: &defaults_values
+    restart: unless-stopped # Automatically restart the container unless manually stopped.
+    env_file: .env # Load additional environment variables from a .env file.
+    environment:
+        TZ: Europe/Berlin # Set the application timezone.
+        PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
+        PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
+        DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
+    logging: # Configure log rotation to prevent excessive disk usage.
+        driver: local # Use the default local logging driver.
+        options:
+            max-size: "20m" # Limit individual log file size to 20MB.
+            max-file: "5" # Keep a maximum of 5 log files.
+            compress: "true" # Compress log files to save disk space.
+    networks: [custom_network] # Attach the container to the custom network.
+
+services:
+    # Watchtower service to automatically update containers when new versions of their images are available.
+    watchtower:
+        <<: *defaults_values
+        image: containrrr/watchtower # The official Watchtower image.
+        container_name: watchtower # Name the container "watchtower" for easier identification.
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:rw # Mount the Docker socket to allow Watchtower to interact with the Docker daemon.
+        command:
+            --cleanup --interval 86400 # Configure Watchtower:
+            # --cleanup: Remove old images after updates.
+            # --interval 86400: Check for updates every 24 hours (86400 seconds).
+    ##### GENERATED END #####
+
+    ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
+    octobot:
+        <<: *defaults_values
+        container_name: Octobot
+        image: drakkarsoftware/octobot:stable
+        ports:
+            - "3001:5001"
+        volumes:
+            - ./logs:/octobot/logs:rw
+            - ./backtesting:/octobot/backtesting:rw
+            - ./tentacles:/octobot/tentacles:rw
+            - ./user:/octobot/user:rw
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:5001"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 10s

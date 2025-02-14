@@ -1,32 +1,47 @@
+##### GENERATED START #####
+# Define the custom bridge network for communication between services.
+networks:
+    custom_network:
+        driver: bridge # Use the bridge network driver for service communication.
+
+# Order: defaults_values, image, container_name, depends_on, environment, ports, volumes, healthcheck
+x-defaults: &defaults_values
+    restart: unless-stopped # Automatically restart the container unless manually stopped.
+    env_file: .env # Load additional environment variables from a .env file.
+    environment:
+        TZ: Europe/Berlin # Set the application timezone.
+        PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
+        PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
+        DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
+    logging: # Configure log rotation to prevent excessive disk usage.
+        driver: local # Use the default local logging driver.
+        options:
+            max-size: "20m" # Limit individual log file size to 20MB.
+            max-file: "5" # Keep a maximum of 5 log files.
+            compress: "true" # Compress log files to save disk space.
+    networks: [custom_network] # Attach the container to the custom network.
+
 services:
+    # Watchtower service to automatically update containers when new versions of their images are available.
+    watchtower:
+        <<: *defaults_values
+        image: containrrr/watchtower # The official Watchtower image.
+        container_name: watchtower # Name the container "watchtower" for easier identification.
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:rw # Mount the Docker socket to allow Watchtower to interact with the Docker daemon.
+        command:
+            --cleanup --interval 86400 # Configure Watchtower:
+            # --cleanup: Remove old images after updates.
+            # --interval 86400: Check for updates every 24 hours (86400 seconds).
+    ##### GENERATED END #####
+
+    ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
     redbot:
+        <<: *defaults_values
         container_name: redbot
         image: phasecorex/red-discordbot:latest
-        env_file: .env
-        restart: unless-stopped
-        volumes:
-            - ./redbot:/data
         environment:
-            - TOKEN=${TOKEN}
-            - PREFIX=.
-            - TZ=Europe/Berlin
-            - PUID=${PUID}
-            - PGID=${PGID}
-            - DISABLE_IPV6=${DISABLE_IPV6}
-        networks:
-            - app_network
-
-    watchtower:
-        image: containrrr/watchtower:latest
-        container_name: watchtower
-        restart: always
+            TOKEN: ${TOKEN}
+            PREFIX: .
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-        environment:
-            WATCHTOWER_CLEANUP: "true"
-            WATCHTOWER_LABEL_ENABLE: "true"
-        networks:
-            - app_network
-
-networks:
-    app_network:
+            - ./redbot:/data:rw

@@ -1,95 +1,84 @@
-services:
-    watchtower:
-        image: containrrr/watchtower
-        container_name: watchtower
-        restart: unless-stopped
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket to allow Watchtower to interact with Docker.
-        command: --cleanup --interval 86400 # Clean up old images and check for updates every 24 hours.
-        networks:
-            - firefly_iii # Attach Watchtower to the firefly_iii network.
+##### GENERATED START #####
+# Define the custom bridge network for communication between services.
+networks:
+    custom_network:
+        driver: bridge # Use the bridge network driver for service communication.
 
-    firefly_iii_core:
-        image: fireflyiii/core:latest
-        container_name: firefly_iii_core # Set container name to "firefly_iii_core".
-        hostname: firefly_iii_core # Set hostname to "firefly_iii_core".
-        restart: unless-stopped # Automatically restart unless manually stopped.
+# Order: defaults_values, image, container_name, depends_on, environment, ports, volumes, healthcheck
+x-defaults: &defaults_values
+    restart: unless-stopped # Automatically restart the container unless manually stopped.
+    env_file: # Load additional environment variables from a .env and .db.env file.
+        - .env
+        - .db.env
+    environment:
+        TZ: Europe/Berlin # Set the application timezone.
+        PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
+        PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
+        DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
+    logging: # Configure log rotation to prevent excessive disk usage.
+        driver: local # Use the default local logging driver.
+        options:
+            max-size: "20m" # Limit individual log file size to 20MB.
+            max-file: "5" # Keep a maximum of 5 log files.
+            compress: "true" # Compress log files to save disk space.
+    networks: [custom_network] # Attach the container to the custom network.
+
+services:
+    # Watchtower service to automatically update containers when new versions of their images are available.
+    watchtower:
+        <<: *defaults_values
+        image: containrrr/watchtower # The official Watchtower image.
+        container_name: watchtower # Name the container "watchtower" for easier identification.
         volumes:
-            - firefly_iii_upload:/var/www/html/storage/upload # Persist uploads directory.
-        env_file: .env # Load environment variables from .env file.
-        ports:
-            - "3001:8080" # Expose port 8080 to port 3001 on the host.
+            - /var/run/docker.sock:/var/run/docker.sock:rw # Mount the Docker socket to allow Watchtower to interact with the Docker daemon.
+        command:
+            --cleanup --interval 86400 # Configure Watchtower:
+            # --cleanup: Remove old images after updates.
+            # --interval 86400: Check for updates every 24 hours (86400 seconds).
+    ##### GENERATED END #####
+
+    ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
+    firefly_iii_core:
+        <<: *defaults_values
+        image: fireflyiii/core:latest
+        container_name: firefly_iii_core
         depends_on:
-            - db # Ensure the database starts before the app.
-        networks:
-            - firefly_iii # Attach to the firefly_iii network.
-        healthcheck: # Health check to verify the app is running correctly.
-            test: ["CMD", "curl", "-f", "http://localhost:8080"] # Use curl to check if the service is running.
-            interval: 30s # Check every 30 seconds.
-            timeout: 10s # Wait 10 seconds for a response.
-            retries: 3 # Retry up to 3 times.
-            start_period: 10s # Start health checks 10 seconds after the container starts.
-        logging:
-            driver: json-file # Use JSON file for logging.
-            options:
-                max-size: "10m" # Limit log file size to 10MB.
-                max-file: "3" # Keep a maximum of 3 log files.
-        deploy:
-            resources: # Define resource limits.
-                limits:
-                    cpus: "1" # Limit CPU usage to 1 core.
-                    memory: "768M" # Limit memory usage to 768MB.
+            - db
+        ports:
+            - "3001:8080"
+        volumes:
+            - firefly_iii_upload:/var/www/html/storage/upload:rw
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8080"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 10s
 
     db:
+        <<: *defaults_values
         image: mariadb:lts
-        container_name: firefly_iii_db # Set container name to "firefly_iii_db".
-        hostname: db # Set the hostname for the database container.
-        restart: unless-stopped # Automatically restart unless manually stopped.
-        env_file: .db.env # Load database environment variables from .db.env file.
-        networks:
-            - firefly_iii # Attach to the firefly_iii network.
+        container_name: firefly_iii_db
         volumes:
-            - firefly_iii_db:/var/lib/mysql # Persist MySQL data.
-        healthcheck: # Health check to verify the database is running correctly.
-            test: ["CMD", "mysql", "-u", "root", "-e", "SELECT 1"] # Test the database connection.
-            interval: 30s # Check every 30 seconds.
-            timeout: 10s # Wait 10 seconds for a response.
-            retries: 3 # Retry up to 3 times.
-            start_period: 10s # Start health checks 10 seconds after the container starts.
-        logging:
-            driver: json-file # Use JSON file for logging.
-            options:
-                max-size: "10m" # Limit log file size to 10MB.
-                max-file: "3" # Keep a maximum of 3 log files.
-        deploy:
-            resources: # Define resource limits.
-                limits:
-                    cpus: "1" # Limit CPU usage to 1 core.
-                    memory: "768M" # Limit memory usage to 768MB.
+            - firefly_iii_db:/var/lib/mysql:rw
+        healthcheck:
+            test: ["CMD", "mysql", "-u", "root", "-e", "SELECT 1"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 10s
 
     cron:
+        <<: *defaults_values
         image: alpine
-        container_name: firefly_iii_cron # Set container name to "firefly_iii_cron".
-        restart: unless-stopped # Automatically restart unless manually stopped.
-        env_file: .env # Load environment variables from .env file.
+        container_name: firefly_iii_cron
         command: sh -c "
             apk add tzdata
             && ln -s /usr/share/zoneinfo/${TZ} /etc/localtime
             | echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/$STATIC_CRON_TOKEN;echo\"
             | crontab -
             && crond -f -L /dev/stdout"
-        networks:
-            - firefly_iii # Attach to the firefly_iii network.
-        logging:
-            driver: json-file # Use JSON file for logging.
-            options:
-                max-size: "10m" # Limit log file size to 10MB.
-                max-file: "3" # Keep a maximum of 3 log files.
 
 volumes:
-    firefly_iii_upload: # Volume for storing file uploads.
-    firefly_iii_db: # Volume for storing database data.
-
-networks:
-    firefly_iii:
-        driver: bridge # Use a custom bridge network for communication between containers.
+    firefly_iii_upload:
+    firefly_iii_db:

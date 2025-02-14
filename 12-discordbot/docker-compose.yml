@@ -38,8 +38,8 @@ services:
     ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
     redbot:
         <<: *defaults_values
-        container_name: redbot
         image: phasecorex/red-discordbot:latest
+        container_name: redbot
         environment:
             TOKEN: ${TOKEN}
             PREFIX: .

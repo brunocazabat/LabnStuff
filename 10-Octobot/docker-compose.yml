@@ -38,8 +38,8 @@ services:
     ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
     octobot:
         <<: *defaults_values
-        container_name: Octobot
         image: drakkarsoftware/octobot:stable
+        container_name: Octobot
         ports:
             - "3001:5001"
         volumes:

@@ -1,54 +1,59 @@
-services:
-    watchtower:
-        image: containrrr/watchtower
-        container_name: watchtower
-        restart: unless-stopped
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket to allow Watchtower to interact with Docker.
-        command: --cleanup --interval 86400 # Cleanup old images and check for updates every 24 hours.
-        networks:
-            - custom_network # Attach Watchtower to the custom network.
-
-    speedtest-tracker:
-        image: lscr.io/linuxserver/speedtest-tracker:latest # Use the latest image for speedtest-tracker.
-        container_name: speedtest-tracker # Name the container "speedtest-tracker" for easier identification.
-        hostname: speedtest-tracker # Set the hostname of the container to "speedtest-tracker".
-        restart: unless-stopped # Automatically restart the container unless manually stopped.
-        env_file: .env # Load environment variables from the .env file.
-        environment:
-            - PUID=${PUID} # UID to run the application as.
-            - PGID=${PGID} # GID to run the application as.
-            - DISABLE_IPV6=${DISABLE_IPV6} # Optionally disable IPv6.
-            - APP_KEY=${APP_KEY} # Application key to secure the tracker.
-            - DB_CONNECTION=sqlite # Set SQLite as the database connection type.
-            - SPEEDTEST_SCHEDULE=0 */2 * * * # Schedule to run the speedtest every 2 hours.
-            - PRUNE_RESULTS_OLDER_THAN=90 # Prune results older than 90 days.
-            - APP_TIMEZONE=Europe/Berlin # Set the application timezone.
-            - DISPLAY_TIMEZONE=Europe/Berlin # Set the display timezone.
-        ports:
-            - "3003:443" # Map port 3003 on the host to port 443 in the container (for the secure web UI).
-        volumes:
-            - ./data:/config:rw # Persist configuration data to a local "data" directory (read-write).
-        healthcheck: # Define a health check to ensure the service is running correctly.
-            test: ["CMD", "curl", "-f", "https://localhost:443"] # Use curl to check if the app is responding on port 443.
-            interval: 30s # Perform the health check every 30 seconds.
-            timeout: 10s # Wait up to 10 seconds for a response before marking the check as failed.
-            retries: 3 # Retry the health check 3 times before marking the container as unhealthy.
-            start_period: 10s # Wait 10 seconds after starting the container before running health checks.
-        logging: # Configure log rotation to prevent excessive disk usage.
-            driver: json-file # Use the default JSON file logging driver.
-            options:
-                max-size: "10m" # Limit individual log file size to 10MB.
-                max-file: "3" # Keep a maximum of 3 log files.
-        deploy:
-            resources: # Set resource limits to manage the container's impact on the host system.
-                limits:
-                    cpus: "1" # Limit the container to using 1 CPU core.
-                    memory: "768M" # Limit the container to using 768MB of RAM.
-        networks:
-            - custom_network # Attach the container to the custom network.
-
+##### GENERATED START #####
 # Define the custom bridge network for communication between services.
 networks:
     custom_network:
         driver: bridge # Use the bridge network driver for service communication.
+
+# Order: defaults_values, image, container_name, depends_on, environment, ports, volumes, healthcheck
+x-defaults: &defaults_values
+    restart: unless-stopped # Automatically restart the container unless manually stopped.
+    env_file: .env # Load additional environment variables from a .env file.
+    environment:
+        TZ: Europe/Berlin # Set the application timezone.
+        PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
+        PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
+        DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
+    logging: # Configure log rotation to prevent excessive disk usage.
+        driver: local # Use the default local logging driver.
+        options:
+            max-size: "20m" # Limit individual log file size to 20MB.
+            max-file: "5" # Keep a maximum of 5 log files.
+            compress: "true" # Compress log files to save disk space.
+    networks: [custom_network] # Attach the container to the custom network.
+
+services:
+    # Watchtower service to automatically update containers when new versions of their images are available.
+    watchtower:
+        <<: *defaults_values
+        image: containrrr/watchtower # The official Watchtower image.
+        container_name: watchtower # Name the container "watchtower" for easier identification.
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:rw # Mount the Docker socket to allow Watchtower to interact with the Docker daemon.
+        command:
+            --cleanup --interval 86400 # Configure Watchtower:
+            # --cleanup: Remove old images after updates.
+            # --interval 86400: Check for updates every 24 hours (86400 seconds).
+    ##### GENERATED END #####
+
+    ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
+    speedtest-tracker:
+        <<: *defaults_values
+        image: lscr.io/linuxserver/speedtest-tracker:latest
+        container_name: speedtest-tracker
+        environment:
+            APP_KEY: ${APP_KEY}
+            DB_CONNECTION: sqlite
+            SPEEDTEST_SCHEDULE: "0 */2 * * *"
+            PRUNE_RESULTS_OLDER_THAN: 90
+            APP_TIMEZONE: Europe/Berlin
+            DISPLAY_TIMEZONE: Europe/Berlin
+        ports:
+            - "3003:443"
+        volumes:
+            - ./data:/config:rw
+        healthcheck:
+            test: ["CMD", "curl", "-f", "https://localhost:443"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 10s

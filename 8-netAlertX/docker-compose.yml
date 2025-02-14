@@ -31,11 +31,12 @@ services:
 
     ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
     netalertx:
+        <<: *defaults_values
         container_name: NetAlertX
+        image: jokobsk/netalertx:latest
         privileged: true
         security_opt:
             - no-new-privileges:true
-        image: jokobsk/netalertx:latest
         environment:
             PORT: 3000
         volumes:

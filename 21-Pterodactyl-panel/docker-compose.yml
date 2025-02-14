@@ -1,61 +1,91 @@
+##### GENERATED START #####
+# Define the custom bridge network for communication between services.
+networks:
+    custom_network:
+        driver: bridge # Use the bridge network driver for service communication.
+
+# Order: defaults_values, image, container_name, depends_on, environment, ports, volumes, healthcheck
+x-defaults: &defaults_values
+    restart: unless-stopped # Automatically restart the container unless manually stopped.
+    env_file: .env # Load additional environment variables from a .env file.
+    environment:
+        TZ: Europe/Berlin # Set the application timezone.
+        PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
+        PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
+        DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
+    logging: # Configure log rotation to prevent excessive disk usage.
+        driver: local # Use the default local logging driver.
+        options:
+            max-size: "20m" # Limit individual log file size to 20MB.
+            max-file: "5" # Keep a maximum of 5 log files.
+            compress: "true" # Compress log files to save disk space.
+    networks: [custom_network] # Attach the container to the custom network.
+
 services:
+    # Watchtower service to automatically update containers when new versions of their images are available.
+    watchtower:
+        <<: *defaults_values
+        image: containrrr/watchtower # The official Watchtower image.
+        container_name: watchtower # Name the container "watchtower" for easier identification.
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:rw # Mount the Docker socket to allow Watchtower to interact with the Docker daemon.
+        command:
+            --cleanup --interval 86400 # Configure Watchtower:
+            # --cleanup: Remove old images after updates.
+            # --interval 86400: Check for updates every 24 hours (86400 seconds).
+    ##### GENERATED END #####
+
+    ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
     database:
-        container_name: database
+        <<: *defaults_values
         image: mariadb:10.11
-        env_file: .env
-        restart: unless-stopped
+        container_name: database
         ports:
-            - $PORT_DB:3306
+            - "${PORT_DB}:3306"
         command: --default-authentication-plugin=mysql_native_password
         volumes:
-            - db:/var/lib/mysql
-            - dbetc:/etc/mysql
-        networks:
-            - panel
+            - db:/var/lib/mysql:rw
+            - dbetc:/etc/mysql:rw
         environment:
-            MYSQL_PASSWORD: $MYSQL_PASS
-            MYSQL_ROOT_PASSWORD: $MYSQL_PASS_ROOT
+            MYSQL_PASSWORD: "${MYSQL_PASS}"
+            MYSQL_ROOT_PASSWORD: "${MYSQL_PASS_ROOT}"
             MYSQL_DATABASE: "panel"
             MYSQL_USER: "pterodactyl"
 
     cache:
-        container_name: cache
+        <<: *defaults_values
         image: redis:alpine3.18
-        env_file: .env
-        networks:
-            - panel
-        restart: unless-stopped
+        container_name: cache
         volumes:
-            - cache:/data
+            - cache:/data:rw
 
     panel:
+        <<: *defaults_values
+        image: ghcr.io/pterodactyl/panel:latest
         container_name: panel
-        hostname: pterodactyl_panel
-        image: ghcr.io/pterodactyl/panel:v1.11.10
-        env_file: .env
-        restart: unless-stopped
-        networks:
-            - panel
         ports:
-            - $PORT_HTTP:80
+            - "${PORT_HTTP}:80"
         links:
             - database
             - cache
+        depends_on:
+            - database
+            - cache
         volumes:
-            - env:/app/var
+            - env:/app/var:rw
         environment:
-            MAIL_FROM: $MAIL_FROM
+            MAIL_FROM: "${MAIL_FROM}"
             MAIL_DRIVER: "smtp"
-            MAIL_HOST: $MAIL_SERVER
-            MAIL_PORT: $MAIL_PORT
-            MAIL_USERNAME: $MAIL_USERNAME
-            MAIL_PASSWORD: $MAIL_PASS
+            MAIL_HOST: "${MAIL_SERVER}"
+            MAIL_PORT: "${MAIL_PORT}"
+            MAIL_USERNAME: "${MAIL_USERNAME}"
+            MAIL_PASSWORD: "${MAIL_PASS}"
             MAIL_ENCRYPTION: "true"
-            APP_URL: $PTERO_PANEL_URL
+            APP_URL: "${PTERO_PANEL_URL}"
             APP_TIMEZONE: Europe/Berlin
-            APP_SERVICE_AUTHOR: $MAIL_FROM
-            TRUSTED_PROXIES: $TRUSTED_PROXIES
-            DB_PASSWORD: $MYSQL_PASS
+            APP_SERVICE_AUTHOR: "${MAIL_FROM}"
+            TRUSTED_PROXIES: "${TRUSTED_PROXIES}"
+            DB_PASSWORD: "${MYSQL_PASS}"
             APP_ENV: "production"
             APP_ENVIRONMENT_ONLY: "false"
             CACHE_DRIVER: "redis"
@@ -63,9 +93,13 @@ services:
             QUEUE_DRIVER: "redis"
             REDIS_HOST: "cache"
             DB_HOST: "database"
-            DB_PORT: $PORT_DB
-networks:
-    panel:
+            DB_PORT: "${PORT_DB}"
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:80"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 10s
 
 volumes:
     cache:

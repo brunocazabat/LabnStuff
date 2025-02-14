@@ -1,52 +1,51 @@
+##### GENERATED START #####
+# Order: defaults_values, image, container_name, depends_on, environment, ports, volumes, healthcheck
+x-defaults: &defaults_values
+    restart: unless-stopped # Automatically restart the container unless manually stopped.
+    env_file: .env # Load additional environment variables from a .env file.
+    environment:
+        TZ: Europe/Berlin # Set the application timezone.
+        PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
+        PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
+        DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
+    logging: # Configure log rotation to prevent excessive disk usage.
+        driver: local # Use the default local logging driver.
+        options:
+            max-size: "20m" # Limit individual log file size to 20MB.
+            max-file: "5" # Keep a maximum of 5 log files.
+            compress: "true" # Compress log files to save disk space.
+
 services:
+    # Watchtower service to automatically update containers when new versions of their images are available.
     watchtower:
-        image: containrrr/watchtower
-        container_name: watchtower
-        restart: unless-stopped
+        <<: *defaults_values
+        image: containrrr/watchtower # The official Watchtower image.
+        container_name: watchtower # Name the container "watchtower" for easier identification.
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket to allow Watchtower to interact with Docker.
-        command: --cleanup --interval 86400 # Cleanup old images and check for updates every 24 hours.
-        networks:
-            - custom_network # Attach Watchtower to the custom network.
+            - /var/run/docker.sock:/var/run/docker.sock:rw # Mount the Docker socket to allow Watchtower to interact with the Docker daemon.
+        command:
+            --cleanup --interval 86400 # Configure Watchtower:
+            # --cleanup: Remove old images after updates.
+            # --interval 86400: Check for updates every 24 hours (86400 seconds).
+    ##### GENERATED END #####
 
+    ##### SERVICES START ##### ADD YOUR SERVICES BELOW #####
     netalertx:
-        container_name: NetAlertX # Set the container name to "NetAlertX" for easier identification.
-        hostname: NetAlertX # Set the hostname of the container to "NetAlertX".
-        env_file: .env # Load environment variables from the .env file.
-        privileged: true # Grant the container extended privileges to perform certain operations.
+        container_name: NetAlertX
+        privileged: true
         security_opt:
-            - no-new-privileges:true # Set security options to prevent the container from gaining new privileges.
-        image: jokobsk/netalertx:latest # Use the latest image for the netalertx service.
+            - no-new-privileges:true
+        image: jokobsk/netalertx:latest
         environment:
-            - TZ=Europe/Berlin # Set the timezone for the container.
-            - PORT=3000 # Set the port to 3000.
-            - HOST_USER_ID=${PUID} # Use the PUID environment variable for the host user ID.
-            - HOST_USER_GID=${PGID} # Use the PGID environment variable for the host group ID.
-            - DISABLE_IPV6=${DISABLE_IPV6} # Optionally disable IPv6.
-        restart: unless-stopped # Automatically restart the container unless manually stopped.
+            PORT: 3000
         volumes:
-            - ./netalertx/db:/app/db:rw # Mount the local "db" directory to persist database files.
-            - ./netalertx/config:/app/config:rw # Mount the local "config" directory to persist configuration files.
-            - ./netalertx/logs:/app/front/log:rw # Mount the local "logs" directory to persist log files.
-        network_mode: host # Use host networking mode, which allows the container to share the host's network interfaces.
-        healthcheck: # Define a health check to ensure the service is running correctly.
-            test: ["CMD", "curl", "-f", "http://localhost:3000"] # Use curl to check if the app is responding on port 3000.
-            interval: 30s # Perform the health check every 30 seconds.
-            timeout: 10s # Wait up to 10 seconds for a response before marking the check as failed.
-            retries: 3 # Retry the health check 3 times before marking the container as unhealthy.
-            start_period: 10s # Wait 10 seconds after starting the container before running health checks.
-        logging: # Configure log rotation to prevent excessive disk usage.
-            driver: json-file # Use the default JSON file logging driver.
-            options:
-                max-size: "10m" # Limit individual log file size to 10MB.
-                max-file: "3" # Keep a maximum of 3 log files.
-        deploy:
-            resources: # Set resource limits to manage the container's impact on the host system.
-                limits:
-                    cpus: "1" # Limit the container to using 1 CPU core.
-                    memory: "768M" # Limit the container to using 768MB of RAM.
-
-# Define the custom bridge network for communication between services.
-networks:
-    custom_network:
-        driver: bridge # Use the bridge network driver for service communication.
+            - ./netalertx/db:/app/db:rw
+            - ./netalertx/config:/app/config:rw
+            - ./netalertx/logs:/app/front/log:rw
+        network_mode: host
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:3000"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 10s

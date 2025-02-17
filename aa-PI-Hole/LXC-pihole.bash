@@ -9,5 +9,3 @@ sudo pihole -a -p # Set password
 sudo pihole -up # Update Pi-Hole
 
 sudo pihole -g # Update Gravity
-
-

@@ -14,6 +14,8 @@ x-defaults: &defaults_values
         - no-new-privileges:true
     environment:
         TZ: Europe/Berlin # Set the application timezone.
+        PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
+        PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
         DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
     logging: # Configure log rotation to prevent excessive disk usage.
         driver: local # Use the default local logging driver.

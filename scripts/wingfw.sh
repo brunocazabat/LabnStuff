@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ufw allow ssh
 ufw allow 8080

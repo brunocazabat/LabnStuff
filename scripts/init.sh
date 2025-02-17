@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # user and port left exposed for the sake of the example, do not use in production or exposed to the internet!
 

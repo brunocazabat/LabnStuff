@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 sed -i "s|http://archive.ubuntu.com/ubuntu|http://old-releases.ubuntu.com/ubuntu|g" /etc/apt/sources.list
 

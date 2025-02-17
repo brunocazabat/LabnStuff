@@ -1,17 +1,19 @@
 ##### GENERATED START #####
 # Define the custom bridge network for communication between services.
 networks:
-    custom_network:
+    bridge_network:
+        name: bridge_network
         driver: bridge # Use the bridge network driver for service communication.
 
 # Order: defaults_values, image, container_name, depends_on, environment, ports, volumes, healthcheck
 x-defaults: &defaults_values
     restart: unless-stopped # Automatically restart the container unless manually stopped.
     env_file: .env # Load additional environment variables from a .env file.
+    privileged: false # Do not run the container in privileged mode.
+    security_opt:
+        - no-new-privileges:true
     environment:
         TZ: Europe/Berlin # Set the application timezone.
-        PUID: ${PUID} # Set the user ID for file permissions using an environment variable.
-        PGID: ${PGID} # Set the group ID for file permissions using an environment variable.
         DISABLE_IPV6: ${DISABLE_IPV6} # Optionally disable IPv6 support using an environment variable.
     logging: # Configure log rotation to prevent excessive disk usage.
         driver: local # Use the default local logging driver.
@@ -19,7 +21,7 @@ x-defaults: &defaults_values
             max-size: "20m" # Limit individual log file size to 20MB.
             max-file: "5" # Keep a maximum of 5 log files.
             compress: "true" # Compress log files to save disk space.
-    networks: [custom_network] # Attach the container to the custom network.
+    networks: [bridge_network] # Attach the container to the custom network.
 
 services:
     # Watchtower service to automatically update containers when new versions of their images are available.
